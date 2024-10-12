@@ -65,15 +65,17 @@ body {
   padding: var(--spacing-md);
   max-width: 90%;
   margin: 0 auto;
-  padding-left: var(--spacing-sm);
-  padding-right: var(--spacing-sm);
 }
 
 .logo-area {
-  flex-shrink: 0;
-  width: 20%;
+  flex: 0 0 auto;
   display: flex;
-  align-items: center; /* Center the logo vertically */
+  align-items: center;
+}
+
+.nav-logo {
+  width: auto;
+  height: 40px; /* Ajusta esto según el tamaño deseado del logo */
 }
 
 .logo-area img {
@@ -88,9 +90,18 @@ body {
 }
 
 .nav-links {
-  display: flex; /* Add this to create a flex container */
-  align-items: center; /* Center items vertically */
-  gap: var(--spacing-lg);
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-link {
+  margin: 0 var(--spacing-md);
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+  transition: var(--transition-default);
 }
 
 .nav-links ul {
@@ -100,17 +111,10 @@ body {
   gap: var(--spacing-lg); /* Add space between nav items */
 }
 
-
-.nav-link {
-  text-decoration: none;
-  color: inherit;
-  font-weight: 500;
-  transition: var(--transition-default);
-}
-
 .nav-actions {
+  flex: 0 0 auto;
   display: flex;
-  align-items: center; /* Center the cart icon vertically */
+  align-items: center;
 }
 
 .nav-link:hover {
@@ -118,9 +122,8 @@ body {
 }
 
 .cart-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
   text-decoration: none;
   color: var(--color-gray-dark);
   transition: var(--transition-default);
@@ -131,7 +134,8 @@ body {
 }
 
 .cart-link svg {
-  fill: currentColor;
+  width: 24px;
+  height: 24px;
 }
 
 /* Estilos para el menú móvil */
@@ -171,8 +175,7 @@ body {
 /* Media queries para responsividad */
 @media screen and (max-width: 768px) {
   .nav-container {
-    max-width: 95%;
-    padding: var(--spacing-xs);
+    justify-content: space-between;
   }
 
   .nav-links {
@@ -181,14 +184,11 @@ body {
 
   .hamburger-menu {
     display: block;
+    order: -1; /* Mueve el menú hamburguesa al principio en dispositivos móviles */
   }
 
-  .cart-link {
-    display: none;
-  }
-
-  .logo-area {
-    width: 25%; /* Aumenta el tamaño relativo del logo en pantallas más pequeñas */
+  .nav-actions {
+    order: 2; /* Mueve el carrito al final en dispositivos móviles */
   }
 }
 
