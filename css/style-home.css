@@ -2,7 +2,7 @@
   --bg-color: #fff;
   --text-color: #0f172a;
   --main-color: #6b7280;
-  --other-colr: #334155;
+  --other-color: #334155;
   --big-font: 4.3rem;
   --h2-font: 2.2rem;
   --p-font: 1rem;
@@ -29,7 +29,7 @@ section {
 .home-text h4 {
   font-size: 22px;
   font-weight: 500;
-  color: var(--other-colr);
+  color: var(--other-color);
 }
 .home-text h1 {
   font-size: var(--big-font);
