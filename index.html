@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda Online</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+</head>
+
+<body>
+    <nav>
+        <div class="menu-overlay"></div>
+        <div id="navbar">
+            <div id="navbar-logo">
+                <img src="img/Logo/LogoColor3.png" alt="Logo" width="140" height="40">
+            </div>
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div id="navbar-links">
+                <ul>
+                    <li><a href="pages/productos.html">Productos</a></li>
+                    <li><a href="pages/contacto.html">Contacto</a></li>
+                </ul>
+                <div id="navbar-cart">
+                    <a href="pages/cart.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                            class="bi bi-cart" viewBox="0 0 16 16">
+                            <path
+                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- TOP -->
+    <div id="home-top-container">
+        <div id="home-top-wrapper">
+            <div id="home-top-text">
+                <h1>
+                    Elegancia con Nuestro Anillo de Oro Blanco
+                </h1>
+                <p>
+                    Esta joya es perfecta para realzar tu estilo y añadir un toque de sofisticación a cualquier atuendo.
+                    Con su diseño brillante, es ideal para ocasiones especiales o el uso diario, convirtiéndose en un
+                    regalo inolvidable para esa persona especial.
+                </p>
+                <button class="blue-button">
+                    Ver colección
+                </button>
+            </div>
+            <div id="home-top-image">
+                <img src="img/whitegold.png" alt="White Gold Plated Princess">
+            </div>
+        </div>
+    </div>
+
+    <!-- OUR COLLECTION / TYPES OF PRODUCTS SELLING -->
+    <div id="collection-container">
+        <h1>Nuestra Colección</h1>
+        <div id="collection-items-wrapper">
+            <div class="collection-item">
+                <div class="collection-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                        class="bi bi-headphones" viewBox="0 0 16 16">
+                        <path
+                            d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5" />
+                    </svg>
+                </div>
+                <span class="collection-name">
+                    Auricular
+                </span>
+            </div>
+            <div class="collection-item">
+                <div class="collection-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                        class="bi bi-phone" viewBox="0 0 16 16">
+                        <path
+                            d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                        <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                    </svg>
+                </div>
+                <span class="collection-name">
+                    Teléfono
+                </span>
+            </div>
+            <div class="collection-item">
+                <div class="collection-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                        class="bi bi-smartwatch" viewBox="0 0 16 16">
+                        <path d="M9 5a.5.5 0 0 0-1 0v3H6a.5.5 0 0 0 0 1h2.5a.5.5 0 0 0 .5-.5z" />
+                        <path
+                            d="M4 1.667v.383A2.5 2.5 0 0 0 2 4.5v7a2.5 2.5 0 0 0 2 2.45v.383C4 15.253 4.746 16 5.667 16h4.666c.92 0 1.667-.746 1.667-1.667v-.383a2.5 2.5 0 0 0 2-2.45V8h.5a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5H14v-.5a2.5 2.5 0 0 0-2-2.45v-.383C12 .747 11.254 0 10.333 0H5.667C4.747 0 4 .746 4 1.667M4.5 3h7A1.5 1.5 0 0 1 13 4.5v7a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 11.5v-7A1.5 1.5 0 0 1 4.5 3" />
+                    </svg>
+                </div>
+                <span class="collection-name">
+                    Reloj inteligente
+                </span>
+            </div>
+            <div class="collection-item">
+                <div class="collection-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                        class="bi bi-tablet" viewBox="0 0 16 16">
+                        <path
+                            d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                        <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                    </svg>
+                </div>
+                <span class="collection-name">
+                    Tablet
+                </span>
+            </div>
+            <div class="collection-item">
+                <div class="collection-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor"
+                        class="bi bi-laptop" viewBox="0 0 16 16">
+                        <path
+                            d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5" />
+                    </svg>
+                </div>
+                <span class="collection-name">
+                    Laptop
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEST SELLERS - PRODUCT SECTION -->
+    <div class="product-section-container">
+        <h1>Los más vendidos</h1>
+        <span class="product-section-description">
+            Calidad y estilo que no puedes perderte.
+        </span>
+        <ul class="product-section-items-wrapper">
+            <li class="product-item">
+                <div class="product-image">
+                    <img src="img/collection/menscottonjacket.png" alt="Mens Cotton Jacket">
+                </div>
+                <div class="product-text">
+                    <span class="product-title">
+                        Chaqueta de manga<br>
+                        larga para hombre
+                    </span>
+                    <div class="product-purchase">
+                        <span class="product-price">
+                            $55.99
+                        </span>
+                        <button class="blue-button add-to-cart">
+                            Añadir al Carrito
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <li class="product-item">
+                <div class="product-image">
+                    <img src="img/collection/opnawomen.png" alt="Remera de manga corta para mujer">
+                </div>
+                <div class="product-text">
+                    <span class="product-title">
+                        Remera de manga corta<br>
+                        para mujer
+                    </span>
+                    <div class="product-purchase">
+                        <span class="product-price">
+                            $7.95
+                        </span>
+                        <button class="blue-button add-to-cart">
+                            Añadir al Carrito
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <li class="product-item">
+                <div class="product-image">
+                    <img src="img/collection/rainjacketwomen.png" alt="Chaqueta de lluvia para mujer">
+                </div>
+                <div class="product-text">
+                    <span class="product-title">
+                        Chaqueta de lluvia<br>
+                        para mujer
+                    </span>
+                    <div class="product-purchase">
+                        <span class="product-price">
+                            $39.99
+                        </span>
+                        <button class="blue-button add-to-cart">
+                            Añadir al Carrito
+                        </button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- MONITOR PROMO -->
+    <div class="promo-container">
+        <div class="promo-box">
+            <div class="promo-image">
+                <img src="img/collection/SamsungCHG90.webp" alt="SAMSUNG CHG90 49">
+            </div>
+            <div class="promo-content">
+                <h1>Recién llegado</h1>
+                <h2> SAMSUNG CHG90 49"</h2>
+                <p>
+                    Su impresionante pantalla
+                    ultra ancha de 3840 x 1080 y diseño curvo te sumerge en cada juego y película, ofreciendo una
+                    experiencia visual inigualable.
+                </p>
+                <div>
+                    <button class="white-button">
+                        Compra ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div id="footer-top">
+            <img src="img/Logo/LogoColor3.png" alt="Mi Tienda Logo" width="220" height="60">
+            <div id="footer-social-wrapper">
+                <div class="footer-social">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    </svg>
+                    <span>012 345 6789</span>
+                </div>
+                <div class="footer-social">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-telegram" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+                    </svg>
+                    <span>Telegram</span>
+                </div>
+                <div class="footer-social">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-twitter" viewBox="0 0 16 16">
+                        <path
+                            d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334q.002-.211-.006-.422A6.7 6.7 0 0 0 16 3.542a6.7 6.7 0 0 1-1.889.518 3.3 3.3 0 0 0 1.447-1.817 6.5 6.5 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.32 9.32 0 0 1-6.767-3.429 3.29 3.29 0 0 0 1.018 4.382A3.3 3.3 0 0 1 .64 6.575v.045a3.29 3.29 0 0 0 2.632 3.218 3.2 3.2 0 0 1-.865.115 3 3 0 0 1-.614-.057 3.28 3.28 0 0 0 3.067 2.277A6.6 6.6 0 0 1 .78 13.58a6 6 0 0 1-.78-.045A9.34 9.34 0 0 0 5.026 15" />
+                    </svg>
+                    <span>Twitter</span>
+                </div>
+            </div>
+        </div>
+        <div id="footer-bottom">
+            <p>&copy; 2024 Mi Tienda - Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="api/products.js"></script>
+    <script src="js/scroll.js"></script>
+    <script>
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('#navbar-links');
+        const overlay = document.querySelector('.menu-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        overlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    </script>
+</body>
+
+</html>
