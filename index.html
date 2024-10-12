@@ -13,9 +13,9 @@
 </head>
 
 <body>
-    <nav>
+    <!-- <nav>
         <div class="menu-overlay"></div>
-        <div id="navbar">
+         <nav class="navigation-bar">
             <div id="navbar-logo">
                 <img src="img/Logo/LogoColor3.png" alt="Logo" width="140" height="40">
             </div>
@@ -40,10 +40,39 @@
                 </div>
             </div>
         </div>
+    </nav> -->
+
+    <nav class="navigation-bar">
+        <div class="menu-overlay"></div>
+        <div class="nav-container">
+            <div class="logo-area">
+                <img src="img/Logo/LogoColor3.png" alt="Logo" class="nav-logo">
+            </div>
+            <div class="hamburger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="pages/productos.html" class="nav-link">Productos</a></li>
+                    <li><a href="pages/contacto.html" class="nav-link">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="nav-actions">
+                <a href="pages/cart.html" class="cart-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                        class="bi bi-cart">
+                        <path
+                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                    </svg>
+                </a>
+            </div>
+        </div>
     </nav>
 
     <!-- TOP -->
-    <div id="home-top-container">
+    <!-- <div id="home-top-container">
         <div id="home-top-wrapper">
             <div id="home-top-text">
                 <h1>
@@ -62,10 +91,10 @@
                 <img src="img/whitegold.png" alt="White Gold Plated Princess">
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- OUR COLLECTION / TYPES OF PRODUCTS SELLING -->
-    <div id="collection-container">
+    <!-- <div id="collection-container">
         <h1>Nuestra Colección</h1>
         <div id="collection-items-wrapper">
             <div class="collection-item">
@@ -132,10 +161,10 @@
                 </span>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- BEST SELLERS - PRODUCT SECTION -->
-    <div class="product-section-container">
+    <!-- <div class="product-section-container">
         <h1>Los más vendidos</h1>
         <span class="product-section-description">
             Calidad y estilo que no puedes perderte.
@@ -199,10 +228,10 @@
                 </div>
             </li>
         </ul>
-    </div>
+    </div> -->
 
     <!-- MONITOR PROMO -->
-    <div class="promo-container">
+    <!-- <div class="promo-container">
         <div class="promo-box">
             <div class="promo-image">
                 <img src="img/collection/SamsungCHG90.webp" alt="SAMSUNG CHG90 49">
@@ -222,10 +251,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- FOOTER -->
-    <footer>
+    <!-- <footer>
         <div id="footer-top">
             <img src="img/Logo/LogoColor3.png" alt="Mi Tienda Logo" width="220" height="60">
             <div id="footer-social-wrapper">
@@ -258,11 +287,12 @@
         <div id="footer-bottom">
             <p>&copy; 2024 Mi Tienda - Todos los derechos reservados.</p>
         </div>
-    </footer>
+    </footer> -->
 
-    <script src="api/products.js"></script>
-    <script src="js/scroll.js"></script>
-    <script>
+    <!-- <script src="api/products.js"></script> -->
+    <!-- <script src="js/scroll.js"></script> -->
+    <script src="js/navigation.js"></script>
+    <!-- <script>
         const hamburger = document.querySelector('.hamburger-menu');
         const navLinks = document.querySelector('#navbar-links');
         const overlay = document.querySelector('.menu-overlay');
@@ -280,6 +310,9 @@
             overlay.classList.remove('active');
             document.body.style.overflow = '';
         });
+    </script> -->
+    <script>
+
     </script>
 </body>
 
