@@ -19,6 +19,8 @@ body {
   color: var(--text-color);
   background: var(--bg-color);
 }
+
+/* Header section design */
 header {
   background: transparent;
   position: fixed;
