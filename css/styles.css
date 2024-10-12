@@ -72,10 +72,12 @@ body {
 .logo-area {
   flex-shrink: 0;
   width: 20%;
+  display: flex;
+  align-items: center; /* Center the logo vertically */
 }
 
 .logo-area img {
-  width: 100%; /* Ocupa todo el ancho del contenedor */
+  width: 60%; /* Ocupa todo el ancho del contenedor */
   height: auto; /* Mantiene la proporción de altura */
   object-fit: contain; /* Asegura que toda la imagen se muestre */
 }
@@ -86,15 +88,29 @@ body {
 }
 
 .nav-links {
-  display: flex;
+  display: flex; /* Add this to create a flex container */
+  align-items: center; /* Center items vertically */
   gap: var(--spacing-lg);
 }
+
+.nav-links ul {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none; /* Remove default list styling */
+  gap: var(--spacing-lg); /* Add space between nav items */
+}
+
 
 .nav-link {
   text-decoration: none;
   color: inherit;
   font-weight: 500;
   transition: var(--transition-default);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center; /* Center the cart icon vertically */
 }
 
 .nav-link:hover {
