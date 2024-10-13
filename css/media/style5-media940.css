@@ -1,0 +1,19 @@
+@media (max-width: 940px) {
+  .home {
+    grid-template-columns: 1fr;
+    text-align: center;
+    height: 117v;
+  }
+  .home-img img {
+    width: 500px;
+    max-width: 100%;
+    height: auto;
+  }
+  .home-text {
+    padding-top: 50px;
+  }
+  .icons i {
+    margin-right: 15px;
+    margin-left: 5px;
+  }
+}
