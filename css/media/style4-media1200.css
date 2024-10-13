@@ -2,6 +2,7 @@
   :root {
     --bg-color: #fff;
     --other-color: #334155;
+    --main-color: #6b7280;
   }
   #menu-icon {
     display: initial;
@@ -23,18 +24,21 @@
     position: absolute;
     top: 100%;
     right: -100%;
-    width: 300px;
-    height: 125vh;
-    background: var(--bg-color);
+    /*width: 300px;*/
+    /*height: 125vh;*/
+    /*height: 45vh;*/
+    background: #667d94;
+    background: var(--main-color);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 130px 30px;
+    padding: 20px 30px;
     transition: all 0.45s ease;
     -webkit-transition: all 0.45s ease;
     -moz-transition: all 0.45s ease;
     -ms-transition: all 0.45s ease;
     -o-transition: all 0.45s ease;
+    border-bottom-left-radius: 5px;
   }
   .navbar a {
     display: block;

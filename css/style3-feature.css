@@ -21,7 +21,7 @@ span {
   grid-template-columns: repeat(auto-fit, minmax(300px, auto));
   gap: 2rem;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 4rem;
 }
 .row {
   padding: 40px 30px;
