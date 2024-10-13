@@ -1,0 +1,31 @@
+@media (max-width: 768px) {
+  .home {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-top: 110px; /* Ajusta según sea necesario */
+  }
+
+  .home-img {
+    order: -1; /* Mueve la imagen al principio */
+    margin-bottom: 2rem; /* Espacio entre la imagen y el texto */
+  }
+
+  .home-img img {
+    width: 100%; /* La imagen ocupa todo el ancho disponible */
+    max-width: 300px; /* Limita el tamaño máximo de la imagen */
+    margin: 0 auto; /* Centra la imagen */
+  }
+
+  .home-text {
+    text-align: center;
+  }
+
+  .home-text h1 {
+    font-size: 2.5rem; /* Reduce el tamaño del título para móviles */
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 1rem;
+  }
+}
