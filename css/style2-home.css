@@ -22,10 +22,15 @@ section {
   align-items: center;
   gap: 1.5rem;
 }
+.home-img{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .home-img img {
   width: 60%;
   height: auto;
-  margin-left: 20%;
+  /* margin-left: 20%; */
 }
 .home-text h4 {
   font-size: 22px;
