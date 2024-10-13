@@ -1,11 +1,44 @@
 :root {
-    --bg-color: #fff;
-    --text-color: #0f172a;
-    --main-color: #6b7280;
-    --other-color: #334155;
-    --big-font: 4.3rem;
-    --h2-font: 2.2rem;
-    --p-font: 1rem;
-  }
-  /* cta section design */
-  
+  --bg-color: #fff;
+  --text-color: #0f172a;
+  --main-color: #6b7280;
+  --other-color: #334155;
+  --big-font: 4.3rem;
+  --h2-font: 2.2rem;
+  --p-font: 1rem;
+}
+/* cta section design */
+.cta {
+  background: url(../img/boy.png);
+  height: 70vh;
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cta-text{
+  max-width: 560px;
+  margin-left: 6%;
+}
+.cta-text .logo img{
+  width: 160px;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+.cta-text h3{
+  font-size: 3.3rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.cta-text p{
+  font-size: var(--p-font);
+  color: var(--other-color);
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+}
