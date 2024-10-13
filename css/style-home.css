@@ -23,8 +23,9 @@ section {
   gap: 1.5rem;
 }
 .home-img img {
-  width: 100%;
+  width: 60%;
   height: auto;
+  margin-left: 20%;
 }
 .home-text h4 {
   font-size: 22px;
