@@ -22,7 +22,7 @@ section {
   align-items: center;
   gap: 1.5rem;
 }
-.home-img{
+.home-img {
   display: flex;
   flex-direction: row;
   justify-content: center;
