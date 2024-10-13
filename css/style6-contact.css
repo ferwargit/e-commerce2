@@ -1,0 +1,45 @@
+:root {
+  --bg-color: #fff;
+  --text-color: #0f172a;
+  --main-color: #6b7280;
+  --other-color: #334155;
+  --big-font: 4.3rem;
+  --h2-font: 2.2rem;
+  --p-font: 1rem;
+}
+/* contact section design */
+.contact {
+  padding: 50px 11% 40px;
+}
+.main-contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+  gap: 2rem;
+  align-items: center;
+}
+.contact-content h5{
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+.contact-content li{
+  margin-bottom: 12px;
+}
+.contact-content li a{
+  display: block;
+  font-size: 15px;
+  color: #374151;
+  font-weight: 400;
+  transition: all .45s ease;
+  -webkit-transition: all .45s ease;
+  -moz-transition: all .45s ease;
+  -ms-transition: all .45s ease;
+  -o-transition: all .45s ease;
+}
+.contact-content li a:hover{
+  color: var(--text-color);
+  transform: translateX(-5px);
+  -webkit-transform: translateX(-5px);
+  -moz-transform: translateX(-5px);
+  -ms-transform: translateX(-5px);
+  -o-transform: translateX(-5px);
+}
