@@ -1,8 +1,59 @@
 @media (max-width: 768px) {
+  header {
+    padding: 0.875rem 4%;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    background: var(--other-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 30px;
+    transition: all 0.45s ease;
+    border-bottom-left-radius: 5px;
+  }
+
+  .navbar a {
+    margin: 1rem;
+    padding: 0.625rem;
+    text-align: center;
+  }
+
+  .navbar a {
+    display: block;
+    /* margin: 1.1rem 0; */
+  }
+  .navbar.open {
+    right: 0;
+  }
+
+  .icons i {
+    height: 2.5rem;
+    width: 2.5rem;
+    font-size: 1.125rem;
+    margin-right: 0.625rem;
+  }
+
+  #menu-icon {
+    display: initial;
+    height: 2.5rem;
+    width: 2.5rem;
+    background: #f7f9fb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--other-color);
+    font-size: 32px;
+  }
   .home {
     grid-template-columns: 1fr;
     height: auto;
-    padding-top: 110px; /* Ajusta según sea necesario */
+    padding-top: 110px;
   }
 
   .home-img {
@@ -13,11 +64,12 @@
   .home-img img {
     width: 100%; /* La imagen ocupa todo el ancho disponible */
     max-width: 300px; /* Limita el tamaño máximo de la imagen */
-    margin: 0 auto; /* Centra la imagen */
+    margin: 5% 0 auto; /* Centra la imagen */
   }
 
   .home-text {
     text-align: center;
+    padding-top: 1%;
   }
 
   .home-text h1 {

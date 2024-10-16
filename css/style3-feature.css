@@ -16,6 +16,9 @@
 span {
   color: var(--main-color);
 }
+.feature {
+  padding-top: 2%;
+}
 .feature-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, auto));

@@ -1,32 +1,15 @@
-@media (max-width: 1200px) {
-  :root {
+/* @media (max-width: 1200px) { */
+  /* :root {
     --bg-color: #fff;
     --other-color: #334155;
     --main-color: #6b7280;
   }
-  #menu-icon {
-    display: initial;
-    height: 50px;
-    width: 50px;
-    background: #f7f9fb;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    color: var(--other-color);
-    font-size: 32px;
-  }
+
   .navbar {
     position: absolute;
     top: 100%;
     right: -100%;
-    /*width: 300px;*/
-    /*height: 125vh;*/
-    /*height: 45vh;*/
+    width: 300px;
     background: #667d94;
     background: var(--main-color);
     display: flex;
@@ -34,10 +17,6 @@
     align-items: center;
     padding: 20px 30px;
     transition: all 0.45s ease;
-    -webkit-transition: all 0.45s ease;
-    -moz-transition: all 0.45s ease;
-    -ms-transition: all 0.45s ease;
-    -o-transition: all 0.45s ease;
     border-bottom-left-radius: 5px;
   }
   .navbar a {
@@ -47,4 +26,17 @@
   .navbar.open {
     right: 0;
   }
-}
+
+  #menu-icon {
+    display: initial;
+    height: 3rem;
+    width: 3rem;
+    background: #f7f9fb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--other-color);
+    font-size: 32px;
+  } */
+/* } */

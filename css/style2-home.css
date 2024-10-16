@@ -21,6 +21,7 @@ section {
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
   gap: 1.5rem;
+  padding-bottom: 2%;
 }
 .home-img {
   display: flex;
@@ -30,7 +31,6 @@ section {
 .home-img img {
   width: 60%;
   height: auto;
-  /* margin-left: 20%; */
 }
 .home-text h4 {
   font-size: 22px;
