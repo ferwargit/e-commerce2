@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Título -->
+    <title>Contacto - Mi Tienda Online</title>
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" as="style"
+        crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"
+        crossorigin="anonymous" />
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+
+    <!-- Meta descripción y otros metas de SEO -->
+    <meta name="description" content="Encuentra productos exclusivos y de calidad en Mi Tienda" />
+    <meta property="og:title" content="Mi Tienda" />
+    <meta property="og:description" content="Tu tienda online con productos destacados" />
+    <meta property="og:image" content="img/logo/logo.png" />
+    <meta property="og:url" content="https://e-commerce3-web.netlify.app/" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/styles-contacto.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <a href="#" class="logo">
+            <img src="../img/logo/logo.png" alt="Logo" />
+        </a>
+
+        <ul class="navbar">
+            <li><a href="../index.html" class="active">Inicio</a></li>
+            <li><a href="#" class="active">Productos</a></li>
+        </ul>
+
+        <div class="icons">
+            <a href="#"><i class="ri-shopping-cart-line"></i></a>
+            <div id="menu-icon" class="bx bx-menu"></div>
+        </div>
+    </header>
+
+    <!-- MAIN SECTION -->
+    <main>
+        <section class="hero">
+            <div class="hero-inner">
+                <h2>Formulario de Contacto</h2>
+                <form id="contact-form" action="https://formspree.io/f/xwpkebwz" method="POST">
+                    <div class="form-group">
+                        <label for="name">Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn-cta">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <!-- cta section design -->
+        <section class="cta-content">
+            <div class="cta">
+                <div class="cta-text">
+                    <a href="#" class="logo"><img src="../img/logo/logo.png" alt="" /></a>
+                    <h3>Oferta especial <br />en productos infantiles</h3>
+                    <p>
+                        Explora un mundo de colores y texturas<br />
+                        que inspiran alegría y libertad.
+                    </p>
+                    <a href="#" class="btn">Descubra más</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- contact section design -->
+        <section class="contact">
+            <div class="main-contact">
+                <div class="contact-content">
+                    <h5>Comenzar a Comprar</h5>
+                    <li><a href="#">Novedades</a></li>
+                    <li><a href="#">Guía de Tallas</a></li>
+                    <li><a href="#">Métodos de Pago</a></li>
+                    <li><a href="#">Política de Devoluciones</a></li>
+                </div>
+
+                <div class="contact-content">
+                    <h5>Categorías</h5>
+                    <li><a href="#">Ropa</a></li>
+                    <li><a href="#">Tecnología</a></li>
+                    <li><a href="#">Joyería</a></li>
+                    <li><a href="#">Ofertas Especiales</a></li>
+                </div>
+
+                <div class="contact-content">
+                    <h5>Recursos Adicionales</h5>
+                    <li><a href="#">Blog de Moda y Tecnología</a></li>
+                    <li><a href="#">Atención al Cliente</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="#">Consejos de Estilo</a></li>
+                </div>
+
+                <div class="contact-content">
+                    <h5>Únete a Nuestra Comunidad</h5>
+                    <li><a href="#">Síguenos en Redes Sociales</a></li>
+                    <li><a href="#">Programa de Recompensas</a></li>
+                    <li><a href="#">Opiniones de Clientes</a></li>
+                    <li><a href="#">Eventos y Promociones</a></li>
+                </div>
+            </div>
+        </section>
+
+        <!-- end -->
+        <div class="end-text">
+            <p>&copy; 2024 Mi Tienda - Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Custom js link -->
+    <script type="text/javascript" src="../js/script.js"></script>
+
+    <!-- Script para contacto.js -->
+    <script src="../api/contacto.js"></script>
+</body>
+
+</html>
