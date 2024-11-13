@@ -24,4 +24,7 @@
   .cta-text p {
     width: 50%;
   }
+  section {
+    padding: 80px 3% 0px;
+  }
 }
