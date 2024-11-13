@@ -96,3 +96,18 @@ button {
 button:hover {
   background: #15344E;
 }
+
+.cta {
+  background: url(../img/boy3.png);
+  height: 70vh;
+  background-size: cover;
+  /* background-position: center; */
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
