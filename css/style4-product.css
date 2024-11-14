@@ -17,6 +17,19 @@
 }
 .box {
   position: relative;
+  padding: 20px;
+  border: 2px solid #6B7280;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  transition: all 0.45s ease;
+  -webkit-transition: all 0.45s ease;
+  -moz-transition: all 0.45s ease;
+  -ms-transition: all 0.45s ease;
+  -o-transition: all 0.45s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 .box-img img {
   width: 100%;

@@ -10,6 +10,7 @@
 /* contact section design */
 .contact {
   padding: 50px 11% 40px;
+  background-color: #7FC7AF;
 }
 .main-contact {
   display: grid;

@@ -39,6 +39,8 @@ span {
   -moz-transition: all 0.45s ease;
   -ms-transition: all 0.45s ease;
   -o-transition: all 0.45s ease;
+  border: 2px solid #6B7280;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 .row:hover {
   transform: translateY(-5px);

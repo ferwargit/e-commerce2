@@ -7,11 +7,13 @@
   --h2-font: 2.2rem;
   --p-font: 1rem;
 }
+
 /* end section design */
 .end-text {
+  background-color: #0f172a;
   text-align: center;
   padding: 20px;
   font-size: 14px;
   letter-spacing: 1px;
-  color: var(--other-color);
+  color: #fff;
 }

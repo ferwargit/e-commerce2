@@ -33,6 +33,7 @@ body {
 
 .hero h2 {
   margin-top: 0;
+  margin-bottom: 10%;
   font-weight: bold;
   color: #333;
 }
