@@ -12,6 +12,8 @@
 
 - **GitHub**: Control de versiones.
 
+    - [Repositorio](https://github.com/ferwargit/e-commerce2)
+
 - **Netlify**: Hospedaje y despliegue en la web.
 
     - [Mi Tienda](https://e-commerce2-appweb.netlify.app/)
@@ -29,3 +31,4 @@
 
 - Esta es una versión inicial del proyecto. 
 - Se agregarán más funcionalidades y contenido en el futuro.
+
