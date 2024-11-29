@@ -1,3 +1,5 @@
+@import url("media/styles-productos-responsive.css");
+
 body {
     min-height: 100vh;
     display: flex;
