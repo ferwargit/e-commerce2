@@ -1,34 +1,61 @@
 body {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: normal;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .products-main {
-	padding: 20px;
-	background-color: #ecf0f1;
-	display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 100px 20px 20px 20px; /* Added top padding to account for fixed header */
+    background-color: #f7f7f7;
+    flex: 1;
 }
 
 .products-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 20px 0;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ddd; /* Añado un borde para separar la cabecera del contenido */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.products-header h1 {
+    font-size: 2em;
+    color: #2c3e50;
+    margin: 0;
 }
 
 .filters {
-	display: flex;
-	gap: 10px;
-    padding: 20px;
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #ddd; /* Añado un borde para separar los filtros del contenido */
+    display: flex;
+    gap: 15px;
+    padding: 15px 20px;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 1em;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.filters select:hover {
+    border-color: #3498db;
+}
+
+.filters select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
 /* Estilos específicos para la sección de productos */
@@ -60,22 +87,27 @@ body {
 
 .image-container {
     position: relative;
-    width: 116px;
-    height: 200px;
+    width: 100%;
+    padding-bottom: 100%; /* Creates a square aspect ratio */
     margin-bottom: 15px;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;     /* Centra verticalmente */
     background-color: #f7f7f7;
 }
 
 .product-image1 {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
+    object-fit: contain;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.product-image1:hover {
+    transform: scale(1.05);
 }
 
 .card h3 {
@@ -119,19 +151,4 @@ body {
     color: #dc3545;
     padding: 20px;
     font-size: 1.2em;
-}
-
-/* Estilos para el filtro de categorías */
-.filters select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1em;
-    color: #333;
-    background-color: white;
-    cursor: pointer;
-}
-
-.filters select:hover {
-    border-color: #e74c3c;
 }
