@@ -29,7 +29,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css" />
-    <link rel="stylesheet" href="../css/styles-contacto.css" />
+    <link rel="stylesheet" href="../css/styles-productos.css" />
 </head>
 
 <body>
@@ -51,47 +51,25 @@
     </header>
 
     <!-- MAIN SECTION -->
-    <main>
-        <!-- <section class="hero">
-            <div class="hero-inner">
-                <h2>Formulario de Contacto</h2>
-                <form id="contact-form" action="https://formspree.io/f/xwpkebwz" method="POST">
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" id="name" name="name" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Mensaje</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn-cta">Enviar</button>
-                    </div>
-                </form>
+    <main class="products-main">
+        <section class="products-header">
+            <h1>Nuestros Productos</h1>
+
+            <!-- Filtros de productos (opcional) -->
+            <div class="filters">
+                <select id="categoryFilter">
+                    <option value="all">Todas las Categorías</option>
+                </select>
             </div>
-        </section> -->
+
+        </section>
+        <!-- Grid de productos -->
+        <section class="product-grid">
+            <!-- Los productos se cargarán aquí dinámicamente con JavaScript -->
+        </section>
     </main>
 
     <footer>
-        <!-- cta section design -->
-        <!-- <section class="cta-content">
-            <div class="cta">
-                <div class="cta-text">
-                    <a href="#" class="logo"><img src="../img/logo/logo.png" alt="" /></a>
-                    <h3>Oferta especial <br />en productos infantiles</h3>
-                    <p>
-                        Explora un mundo de colores y texturas<br />
-                        que inspiran alegría y libertad.
-                    </p>
-                    <a href="#" class="btn">Descubra más</a>
-                </div>
-            </div>
-        </section> -->
-
         <!-- contact section design -->
         <section class="contact">
             <div class="main-contact">
@@ -139,7 +117,7 @@
     <script type="text/javascript" src="../js/script.js"></script>
 
     <!-- Script para contacto.js -->
-    <script src="../api/contacto.js"></script>
+    <script src="../api/products.js"></script>
 </body>
 
 </html>
