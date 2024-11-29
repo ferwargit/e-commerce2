@@ -4,6 +4,11 @@
 
 Una tienda en línea moderna y responsiva construida con tecnologías web estándar y las mejores prácticas de desarrollo.
 
+## 🔗 Enlaces
+
+- 🌐 **Sitio Web**: [Mi Tienda en Netlify](https://e-commerce2-appweb.netlify.app/)
+- 📦 **Repositorio**: [GitHub](https://github.com/ferwargit/e-commerce2)
+
 ## Características
 
 - **Diseño Responsivo y Moderno**
