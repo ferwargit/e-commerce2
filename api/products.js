@@ -2,6 +2,8 @@
 const API_URL = 'https://fakestoreapi.com/products';
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
 
+import { cartService } from '../js/services/cart.js';
+
 // Product Service
 const ProductService = {
     async fetchProducts() {
@@ -64,6 +66,8 @@ class ProductCard {
             }
         });
 
+        const imageContainer = this.createImageContainer();
+        
         const title = DOMHelpers.createElement({
             tag: 'h3',
             text: this.product.title
@@ -71,7 +75,6 @@ class ProductCard {
 
         const price = DOMHelpers.createElement({
             tag: 'p',
-            className: 'price',
             text: `$${this.product.price.toFixed(2)}`
         });
 
@@ -84,7 +87,12 @@ class ProductCard {
             }
         });
 
-        card.appendChild(this.createImageContainer());
+        // Agregar la funcionalidad del carrito al botón existente
+        addToCartButton.addEventListener('click', () => {
+            cartService.addToCart(this.product);
+        });
+
+        card.appendChild(imageContainer);
         card.appendChild(title);
         card.appendChild(price);
         card.appendChild(addToCartButton);
