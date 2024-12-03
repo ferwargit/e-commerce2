@@ -85,6 +85,7 @@ class CartUI {
 
         if (cart.length === 0) {
             this.cartItemsContainer.innerHTML = '<p class="empty-cart">Tu carrito está vacío</p>';
+            this.modal.querySelector('.total-amount').textContent = '0.00';
             return;
         }
 
@@ -112,20 +113,26 @@ class CartUI {
 
             minusBtn.addEventListener('click', () => {
                 this.cartService.updateQuantity(item.id, item.quantity - 1);
+                this.updateTotal();
             });
 
             plusBtn.addEventListener('click', () => {
                 this.cartService.updateQuantity(item.id, item.quantity + 1);
+                this.updateTotal();
             });
 
             removeBtn.addEventListener('click', () => {
                 this.cartService.removeFromCart(item.id);
+                this.updateTotal();
             });
 
             this.cartItemsContainer.appendChild(itemElement);
         });
 
-        // Actualizar el total
+        this.updateTotal();
+    }
+
+    updateTotal() {
         const total = this.cartService.getTotal();
         this.modal.querySelector('.total-amount').textContent = total.toFixed(2);
     }

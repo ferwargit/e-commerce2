@@ -39,6 +39,7 @@ class CartService {
     }
 
     getTotal() {
+        if (this.cart.length === 0) return 0;
         return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
     }
 
