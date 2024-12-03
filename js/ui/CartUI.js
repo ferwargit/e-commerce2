@@ -14,8 +14,10 @@ class CartUI {
         modal.innerHTML = `
             <div class="cart-modal-content">
                 <div class="cart-modal-header">
-                    <h3>Carrito de Compras</h3>
-                    <button class="close-cart">&times;</button>
+                    <div class="header-content">
+                        <h3>Carrito de Compras</h3>
+                        <button class="close-cart">&times;</button>
+                    </div>
                 </div>
                 <div class="cart-items"></div>
                 <div class="cart-total">
@@ -56,11 +58,13 @@ class CartUI {
 
     openCart() {
         this.modal.style.display = 'block';
+        document.body.classList.add('modal-open');
         this.renderCartItems();
     }
 
     closeCart() {
         this.modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
     }
 
     updateCartIcon() {
