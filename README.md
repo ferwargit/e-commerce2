@@ -73,13 +73,11 @@ Una tienda en línea moderna y responsiva construida con tecnologías web están
    cd e-commerce2
    ```
 
-3. Abre `index.html` en tu navegador o usa un servidor local:
-   ```bash
-   # Usando Python
-   python -m http.server 8000
-   # Usando Node.js
-   npx serve
-   ```
+3. Abre el proyecto:
+   - **Usando VSCode con Live Server**:
+     1. Instala la extensión "Live Server" en VSCode
+     2. Click derecho en `index.html`
+     3. Selecciona "Open with Live Server"
 
 ## 📱 Compatibilidad
 
