@@ -1,0 +1,89 @@
+/* Restaurar estilos originales que fueron afectados por Bootstrap */
+.navbar a,
+.home-text a,
+.trending-content a,
+footer a,
+.footer-box a,
+.icons a,
+.main-btn,
+.trending-content h2 span,
+.home a,
+a[href*="colección"],
+a[href*="Explorar"],
+a[href*="Descubrir"],
+.home-text .main-btn,
+.trending .main-btn,
+.row-btn {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+/* Botones específicos */
+.main-btn,
+.ver-coleccion,
+.explorar-mas,
+.descubrir {
+    text-decoration: none !important;
+    border: none !important;
+    border-bottom: none !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* Asegurar que los botones específicos no tengan decoración */
+.row-btn,
+.main-row .row-btn {
+    text-decoration: none !important;
+    border: 2px solid #ff4d4d !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+    color: #ff4d4d !important;
+    padding: 8px 22px !important;
+    border-radius: 5px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Estilos específicos para el hover de los botones */
+.row-btn:hover,
+.main-row .row-btn:hover {
+    color: #ffffff !important;
+    background: #ff4d4d !important;
+    transform: translateY(-3px) !important;
+}
+
+/* Restaurar estilos originales de los precios */
+.price,
+.product-price,
+[class*="price"] {
+    text-decoration: none !important;
+    border: none !important;
+    background: #ff4d4d !important;
+    color: #fff !important;
+    padding: 7px 13px !important;
+    border-radius: 5px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+}
+
+/* Estilos específicos para las cards de Bootstrap */
+.category-cards .card {
+    transition: transform 0.3s ease;
+}
+
+.category-cards .card:hover {
+    transform: translateY(-5px);
+}
+
+.category-cards .card-body {
+    padding: 2rem 1rem;
+}
+
+.category-cards .ri-3x {
+    font-size: 3em;
+}
