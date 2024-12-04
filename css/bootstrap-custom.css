@@ -71,7 +71,38 @@ a[href*="Descubrir"],
     display: inline-block !important;
 }
 
-/* Estilos específicos para las cards de Bootstrap */
+/* Variables globales para espaciado consistente */
+:root {
+    --mobile-padding: 1.5rem;
+}
+
+/* Ajustes para consistencia en móvil */
+@media (max-width: 768px) {
+    /* Reset básico para todas las secciones */
+    section {
+        padding: 2rem 1.5rem !important;
+        margin: 0 !important;
+    }
+
+    /* Eliminar paddings extras de Bootstrap */
+    .container,
+    .container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+/* Ajustes específicos para las cards de Bootstrap */
+.category-cards {
+    padding-left: var(--mobile-padding);
+    padding-right: var(--mobile-padding);
+}
+
 .category-cards .card {
     transition: transform 0.3s ease;
 }

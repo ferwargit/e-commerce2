@@ -15,6 +15,18 @@
   align-items: center;
   margin-top: 4rem;
 }
+
+@media (max-width: 768px) {
+    .product-content {
+        padding: 0;
+        margin-top: 2rem;
+    }
+    
+    .product {
+        padding: 100px 0 90px;
+    }
+}
+
 .box {
   position: relative;
   padding: 20px;
