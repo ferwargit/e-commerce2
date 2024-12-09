@@ -5,6 +5,12 @@ class CartService {
     }
 
     addToCart(product) {
+        // Verificar límite de productos únicos (8 máximo)
+        if (this.cart.length >= 8 && !this.cart.some(item => item.id === product.id)) {
+            alert('Límite máximo de 8 productos únicos alcanzado');
+            return;
+        }
+
         const existingItem = this.cart.find(item => item.id === product.id);
         if (existingItem) {
             // Si ya existe, incrementar hasta un máximo de 3
@@ -71,6 +77,11 @@ class CartService {
     // Método para obtener el límite máximo de cantidad
     getMaxQuantityLimit() {
         return 3;
+    }
+
+    // Método para obtener el límite máximo de productos únicos
+    getMaxUniqueProductsLimit() {
+        return 8;
     }
 }
 
