@@ -7,8 +7,10 @@ class CartService {
     addToCart(product) {
         const existingItem = this.cart.find(item => item.id === product.id);
         if (existingItem) {
-            existingItem.quantity += 1;
+            // Si ya existe, incrementar hasta un máximo de 3
+            existingItem.quantity = Math.min(existingItem.quantity + 1, 3);
         } else {
+            // Si es nuevo, añadir con cantidad 1
             this.cart.push({ ...product, quantity: 1 });
         }
         this.saveCart();
@@ -24,7 +26,9 @@ class CartService {
     updateQuantity(productId, quantity) {
         const item = this.cart.find(item => item.id === productId);
         if (item) {
-            item.quantity = Math.max(0, quantity);
+            // Limitar la cantidad máxima a 3
+            item.quantity = Math.min(Math.max(0, quantity), 3);
+            
             if (item.quantity === 0) {
                 this.removeFromCart(productId);
             } else {
@@ -57,6 +61,11 @@ class CartService {
 
     notifyObservers() {
         this.observers.forEach(callback => callback(this.cart));
+    }
+
+    // Método para obtener el límite máximo de cantidad
+    getMaxQuantityLimit() {
+        return 3;
     }
 }
 
