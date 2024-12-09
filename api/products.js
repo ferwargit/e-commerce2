@@ -120,7 +120,17 @@ class CategoryFilter {
         ).join('');
 
         this.element.addEventListener('change', () => {
-            this.onFilterChange(this.element.value);
+            const selectedCategory = this.element.value;
+            this.onFilterChange(selectedCategory);
+
+            // Actualizar URL con parámetro de categoría
+            const url = new URL(window.location);
+            if (selectedCategory === 'all') {
+                url.searchParams.delete('category');
+            } else {
+                url.searchParams.set('category', selectedCategory);
+            }
+            window.history.pushState({}, '', url);
         });
     }
 }
@@ -145,20 +155,43 @@ class ProductGridController {
     handleCategoryFilter(category) {
         const filteredProducts = category === 'all'
             ? this.products
-            : this.products.filter(product => product.category === category);
+            : this.products.filter(product => product.category.toLowerCase() === category.toLowerCase());
         this.displayProducts(filteredProducts);
     }
 
     async initialize() {
         try {
             this.products = await ProductService.fetchProducts();
-            this.displayProducts(this.products);
             
+            // Obtener categoría de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCategory = urlParams.get('category');
+
+            // Configurar filtro de categorías
             const categoryFilter = new CategoryFilter(
                 this.products.map(p => p.category),
                 category => this.handleCategoryFilter(category)
             );
             categoryFilter.render();
+
+            // Si hay una categoría inicial, aplicar filtro
+            if (initialCategory) {
+                const categorySelect = document.getElementById('categoryFilter');
+                if (categorySelect) {
+                    // Encontrar opción que coincida exactamente (case-insensitive)
+                    const matchingOption = Array.from(categorySelect.options).find(
+                        option => option.value.toLowerCase() === initialCategory.toLowerCase()
+                    );
+
+                    if (matchingOption) {
+                        categorySelect.value = matchingOption.value;
+                        this.handleCategoryFilter(matchingOption.value);
+                    }
+                }
+            } else {
+                // Si no hay categoría inicial, mostrar todos los productos
+                this.displayProducts(this.products);
+            }
 
         } catch (error) {
             console.error("Error:", error);
