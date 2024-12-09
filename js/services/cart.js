@@ -48,6 +48,11 @@ class CartService {
     }
 
     getItemCount() {
+        // Cuenta productos únicos
+        return this.cart.length;
+    }
+
+    getTotalProductQuantity() {
         return this.cart.reduce((total, item) => total + item.quantity, 0);
     }
 
