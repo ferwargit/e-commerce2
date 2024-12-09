@@ -23,11 +23,15 @@ class CartUI {
                 <div class="cart-total">
                     <span>Total: $<span class="total-amount">0</span></span>
                 </div>
+                <div class="cart-actions">
+                    <button class="btn-empty-cart">Vaciar Carrito</button>
+                </div>
             </div>
         `;
         document.body.appendChild(modal);
         this.modal = modal;
         this.cartItemsContainer = modal.querySelector('.cart-items');
+        this.emptyCartBtn = modal.querySelector('.btn-empty-cart');
     }
 
     setupEventListeners() {
@@ -53,6 +57,12 @@ class CartUI {
         this.cartService.addObserver(() => {
             this.updateCartIcon();
             this.renderCartItems();
+        });
+
+        // Agregar evento al botón de vaciar carrito
+        this.emptyCartBtn.addEventListener('click', () => {
+            this.cartService.emptyCart();
+            this.updateTotal();
         });
     }
 

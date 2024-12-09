@@ -83,6 +83,12 @@ class CartService {
     getMaxUniqueProductsLimit() {
         return 8;
     }
+
+    emptyCart() {
+        this.cart = [];
+        this.saveCart();
+        this.notifyObservers();
+    }
 }
 
 export const cartService = new CartService();
