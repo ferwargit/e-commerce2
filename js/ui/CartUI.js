@@ -69,10 +69,11 @@ class CartUI {
             'success': 1
         };
 
-        // Forzar mostrar la notificación verde, ignorando la prioridad anterior
-        console.log('Tipo actual de notificación:', currentType);
-        console.log('Prioridad de tipo actual:', typePriority[currentType]);
-        console.log('Prioridad de nuevo tipo:', typePriority[type]);
+        console.log('Estado actual de la notificación:', {
+            currentType,
+            currentClasses: Array.from(notification.classList),
+            message: notification.querySelector('.cart-notification-text')?.textContent
+        });
 
         // Siempre mostrar la notificación verde
         if (type === 'success') {
@@ -118,8 +119,10 @@ class CartUI {
             return;
         }
 
-        // Si no es una notificación verde, mantener la lógica de prioridad original
-        if (typePriority[type] < typePriority[currentType]) {
+        // Si no es una notificación verde, siempre mostrar notificaciones de advertencia
+        if (type === 'warning') {
+            console.log('Mostrando notificación de advertencia');
+        } else if (typePriority[type] < typePriority[currentType]) {
             console.log('Notificación de menor prioridad, ignorando');
             return;
         }

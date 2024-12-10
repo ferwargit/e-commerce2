@@ -8,11 +8,17 @@ class CartService {
     // Método para obtener el carrito inicial, que puede ser sobrescrito en pruebas
     getInitialCart() {
         try {
-            const storedCart = localStorage.getItem('cart');
-            return storedCart ? JSON.parse(storedCart) : [];
-        } catch (error) {
-            console.error('Error al obtener carrito inicial:', error);
+          // Verificar si localStorage está disponible
+          if (typeof localStorage === 'undefined') {
+            console.warn('localStorage no está disponible');
             return [];
+          }
+
+          const storedCart = localStorage.getItem('cart');
+          return storedCart ? JSON.parse(storedCart) : [];
+        } catch (error) {
+          console.error('No se pudo obtener el carrito inicial de localStorage:', error);
+          return [];
         }
     }
 
@@ -113,7 +119,11 @@ class CartService {
     }
 
     saveCart() {
-        localStorage.setItem('cart', JSON.stringify(this.cart));
+        try {
+            localStorage.setItem('cart', JSON.stringify(this.cart));
+        } catch (error) {
+            console.warn('No se pudo guardar el carrito en localStorage:', error);
+        }
     }
 
     addObserver(callback) {
@@ -141,4 +151,5 @@ class CartService {
     }
 }
 
+export { CartService };
 export const cartService = new CartService();
