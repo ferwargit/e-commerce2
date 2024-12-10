@@ -203,8 +203,8 @@ body.modal-open {
     font-size: 16px !important;
     transition: background-color 0.3s ease;
     margin: 0 !important;
-    width: 200px; /* Fixed width for consistency */
-    text-align: center; /* Center text within the button */
+    width: 200px; 
+    text-align: center;
 }
 
 .btn-empty-cart:hover {
@@ -224,16 +224,34 @@ body.modal-open {
     }
 
     .cart-total {
-        position: fixed;
+        position: sticky;
         bottom: 0;
         left: 0;
         width: 100%;
         padding: 15px;
         background-color: white;
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 10002;
+    }
+
+    .cart-actions {
+        position: sticky;
+        bottom: 0; 
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        z-index: 10003;
+        border-top: 1px solid #eee;
+    }
+
+    .btn-empty-cart {
+        width: calc(100% - 30px);
+        max-width: 300px;
+        margin: 0 15px !important;
     }
 
     .cart-items {
-        padding-bottom: 60px; /* Espacio para evitar que el total fijo oculte contenido */
+        padding-bottom: 120px;
     }
 }
