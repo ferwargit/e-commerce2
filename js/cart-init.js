@@ -5,7 +5,14 @@ import CartUI from './ui/CartUI.js';
 let cartUI;
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Inicializando CartUI');
+    // Crear instancia de CartUI
     cartUI = new CartUI(cartService);
+    
+    // Exportar globalmente para acceder desde otros scripts si es necesario
+    window.cartUI = cartUI;
+    
+    console.log('CartUI inicializado:', cartUI);
 });
 
 // Exportar la instancia de CartUI
