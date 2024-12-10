@@ -3,6 +3,7 @@ const API_URL = 'https://fakestoreapi.com/products';
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
 
 import { cartUI } from '../js/cart-init.js';
+import ProductDetailModal from '../js/ui/ProductDetailModal.js';
 
 // Product Service
 const ProductService = {
@@ -32,6 +33,7 @@ const DOMHelpers = {
 class ProductCard {
     constructor(product) {
         this.product = product;
+        this.productDetailModal = null;
     }
 
     createImageContainer() {
@@ -53,8 +55,22 @@ class ProductCard {
             img.src = PLACEHOLDER_IMAGE;
         };
 
+        // Añadir evento de click para abrir modal
+        img.addEventListener('click', () => this.openProductDetailModal());
+
         imageContainer.appendChild(img);
         return imageContainer;
+    }
+
+    // Método para inicializar y abrir el modal de producto
+    openProductDetailModal() {
+        // Crear modal solo una vez
+        if (!this.productDetailModal) {
+            this.productDetailModal = new ProductDetailModal(cartUI);
+        }
+        
+        // Abrir modal con los datos del producto
+        this.productDetailModal.openModal(this.product);
     }
 
     render() {

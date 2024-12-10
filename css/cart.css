@@ -493,3 +493,303 @@ body.modal-open {
         justify-content: center;  /* Centrar contenido verticalmente */
     }
 }
+
+/* Product Detail Modal Styles */
+.product-detail-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+
+.product-detail-modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.product-detail-content {
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    background-color: white; /* Fondo blanco */
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 30px; /* Añadir padding */
+}
+
+.close-detail-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.close-detail-modal:hover {
+    color: #ef4444; /* Cambio de color al pasar el mouse */
+}
+
+.product-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.product-modal-image img {
+    width: 100%;
+    height: 400px; /* Altura fija para la imagen */
+    object-fit: contain; /* Mantener proporción de la imagen */
+    border-radius: 15px;
+}
+
+.product-modal-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.product-modal-rating .stars {
+    margin-right: 10px;
+    color: #ef4444;
+}
+
+.product-modal-rating .review-count {
+    color: var(--main-color);
+}
+
+.product-modal-title {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--text-color);
+}
+
+.product-modal-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ef4444;
+    margin-bottom: 15px;
+}
+
+.product-modal-description-container,
+.product-modal-category {
+    margin-bottom: 15px;
+}
+
+.product-modal-description-container h4,
+.product-modal-category h4 {
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.product-modal-description,
+.category-text {
+    color: var(--main-color);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .product-detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Volver a none para que JS controle */
+        justify-content: center;
+        align-items: center;
+        z-index: 1100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding: 10px;
+    }
+
+    .product-detail-modal.show {
+        display: flex; /* Solo mostrar cuando tiene clase show */
+        opacity: 1;
+    }
+
+    .product-detail-content {
+        width: 95%;
+        max-width: 500px;
+        max-height: 90vh;
+        background-color: white;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        margin: 0;
+        justify-self: center; /* Centrar horizontalmente */
+        align-self: center; /* Centrar verticalmente */
+    }
+
+    .product-detail-modal.show .product-detail-content {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .product-modal-grid {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 1rem;
+        padding: 20px;
+    }
+
+    .product-modal-image {
+        order: -1;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .product-modal-image img {
+        max-height: 250px;
+        width: 100%;
+        object-fit: contain;
+        border-radius: 15px;
+    }
+
+    .close-detail-modal {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        border: none;
+        cursor: pointer;
+    }
+
+    .close-detail-modal i {
+        font-size: 20px;
+        color: #333;
+    }
+
+    .product-modal-title {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .product-modal-price {
+        font-size: 1.3rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .product-modal-description-container h4,
+    .product-modal-category h4 {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .product-modal-description,
+    .category-text {
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail-content {
+        width: 95%;
+        height: 95vh;
+        max-height: 95vh;
+        margin: 0;
+        border-radius: 15px 15px 0 0;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .product-detail-modal .product-detail-content {
+        transform: translateY(100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    .product-detail-modal.show .product-detail-content {
+        transform: translateY(0);
+    }
+
+    .product-modal-grid {
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 1rem;
+    }
+
+    .product-modal-image {
+        order: -1;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .product-modal-image img {
+        max-height: 300px;
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .close-detail-modal {
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        position: absolute;
+    }
+
+    .product-detail-modal {
+        align-items: flex-end;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .product-modal-title {
+        font-size: 1.3rem;
+    }
+
+    .product-modal-price {
+        font-size: 1.3rem;
+    }
+
+    .product-modal-description-container h4,
+    .product-modal-category h4 {
+        font-size: 0.9rem;
+    }
+
+    .product-modal-description,
+    .category-text {
+        font-size: 0.9rem;
+    }
+}
