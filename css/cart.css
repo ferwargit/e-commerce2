@@ -274,22 +274,22 @@ body.modal-open {
     padding: 15px 25px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 10005;
+    z-index: 10006; 
     display: flex;
     align-items: center;
     gap: 10px;
     opacity: 0;
     transition: all 0.3s ease-in-out;
     font-weight: 500;
+    pointer-events: none; 
+}
+
+.cart-notification.show {
+    opacity: 1;
 }
 
 .cart-notification-text {
     color: white !important;
-}
-
-.cart-notification.show {
-    top: 20px;
-    opacity: 1;
 }
 
 .cart-notification-icon {
