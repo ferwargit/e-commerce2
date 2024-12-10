@@ -173,3 +173,143 @@ describe('CartService', () => {
     expect(cartService.getCart().length).toBe(8);
   });
 });
+
+describe('Observers de CartService', () => {
+  let cartService;
+
+  beforeEach(() => {
+    cartService = new CartService();
+    // Limpiar el carrito antes de cada test
+    cartService.emptyCart();
+  });
+
+  it('debería registrar un observer correctamente', () => {
+    const mockObserver = vi.fn();
+    
+    cartService.addObserver(mockObserver);
+    
+    // Verificar que el observer se ha añadido
+    expect(cartService.observers).toContain(mockObserver);
+  });
+
+  it('debería notificar a los observers después de añadir un producto', () => {
+    const mockObserver1 = vi.fn();
+    const mockObserver2 = vi.fn();
+    
+    cartService.addObserver(mockObserver1);
+    cartService.addObserver(mockObserver2);
+    
+    const testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+    
+    cartService.addToCart(testProduct);
+    
+    // Verificar que ambos observers fueron llamados
+    expect(mockObserver1).toHaveBeenCalledTimes(1);
+    expect(mockObserver2).toHaveBeenCalledTimes(1);
+    
+    // Verificar que los observers reciben el estado correcto del carrito
+    expect(mockObserver1).toHaveBeenCalledWith([testProduct]);
+    expect(mockObserver2).toHaveBeenCalledWith([testProduct]);
+  });
+
+  it('debería notificar a los observers después de eliminar un producto', () => {
+    const mockObserver = vi.fn();
+    
+    cartService.addObserver(mockObserver);
+    
+    const testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+    
+    cartService.addToCart(testProduct);
+    cartService.removeFromCart(1);
+    
+    // Verificar que el observer fue llamado dos veces (añadir y eliminar)
+    expect(mockObserver).toHaveBeenCalledTimes(2);
+    
+    // Verificar que el último estado es un carrito vacío
+    expect(mockObserver).toHaveBeenLastCalledWith([]);
+  });
+
+  it('debería notificar a los observers después de actualizar la cantidad', () => {
+    const mockObserver = vi.fn();
+    
+    cartService.addObserver(mockObserver);
+    
+    const testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+    
+    cartService.addToCart(testProduct);
+    cartService.updateQuantity(1, 2);
+    
+    // Verificar que el observer fue llamado dos veces
+    expect(mockObserver).toHaveBeenCalledTimes(2);
+    
+    // Verificar el estado del último llamado
+    const expectedFinalState = [{ ...testProduct, quantity: 2 }];
+    expect(mockObserver).toHaveBeenLastCalledWith(expectedFinalState);
+  });
+
+  it('debería notificar a los observers al vaciar el carrito', () => {
+    const mockObserver = vi.fn();
+    
+    cartService.addObserver(mockObserver);
+    
+    const testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+    
+    cartService.addToCart(testProduct);
+    cartService.emptyCart();
+    
+    // Verificar que el observer fue llamado dos veces
+    expect(mockObserver).toHaveBeenCalledTimes(2);
+    
+    // Verificar que el último estado es un carrito vacío
+    expect(mockObserver).toHaveBeenLastCalledWith([]);
+  });
+
+  it('debería manejar múltiples observers correctamente', () => {
+    const mockObserver1 = vi.fn();
+    const mockObserver2 = vi.fn();
+    const mockObserver3 = vi.fn();
+    
+    cartService.addObserver(mockObserver1);
+    cartService.addObserver(mockObserver2);
+    cartService.addObserver(mockObserver3);
+    
+    const testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+    
+    cartService.addToCart(testProduct);
+    
+    // Verificar que todos los observers fueron llamados
+    expect(mockObserver1).toHaveBeenCalledTimes(1);
+    expect(mockObserver2).toHaveBeenCalledTimes(1);
+    expect(mockObserver3).toHaveBeenCalledTimes(1);
+    
+    // Verificar que todos recibieron el mismo estado
+    expect(mockObserver1).toHaveBeenCalledWith([testProduct]);
+    expect(mockObserver2).toHaveBeenCalledWith([testProduct]);
+    expect(mockObserver3).toHaveBeenCalledWith([testProduct]);
+  });
+});
