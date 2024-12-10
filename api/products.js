@@ -2,7 +2,7 @@
 const API_URL = 'https://fakestoreapi.com/products';
 const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
 
-import { cartService } from '../js/services/cart.js';
+import { cartUI } from '../js/cart-init.js';
 
 // Product Service
 const ProductService = {
@@ -89,7 +89,11 @@ class ProductCard {
 
         // Agregar la funcionalidad del carrito al botón existente
         addToCartButton.addEventListener('click', () => {
-            cartService.addToCart(this.product);
+            if (cartUI) {
+                cartUI.addToCart(this.product);
+            } else {
+                console.error('CartUI no está inicializado');
+            }
         });
 
         card.appendChild(imageContainer);

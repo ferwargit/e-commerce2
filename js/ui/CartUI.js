@@ -2,9 +2,72 @@ class CartUI {
     constructor(cartService) {
         this.cartService = cartService;
         this.cartIcon = document.querySelector('.ri-shopping-cart-line');
+        this.modal = null;
+        this.cartItemsContainer = null;
+        this.emptyCartBtn = null;
+        this.cartActionsContainer = null;
+        
+        // Crear contenedor de notificaciones
+        this.createNotificationContainer();
+        
         this.setupCartModal();
         this.setupEventListeners();
         this.updateCartIcon();
+    }
+
+    createNotificationContainer() {
+        // Crear contenedor de notificaciones si no existe
+        const existingNotification = document.querySelector('.cart-notification');
+        if (!existingNotification) {
+            const notificationContainer = document.createElement('div');
+            notificationContainer.className = 'cart-notification';
+            notificationContainer.innerHTML = `
+                <div class="cart-notification-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+                <span class="cart-notification-text">Producto añadido al carrito</span>
+            `;
+            document.body.appendChild(notificationContainer);
+        }
+    }
+
+    showCartNotification(productName = 'Producto') {
+        console.log('Mostrando notificación para:', productName);
+        const notification = document.querySelector('.cart-notification');
+        
+        if (!notification) {
+            console.error('Contenedor de notificación no encontrado');
+            this.createNotificationContainer();
+            return;
+        }
+
+        const notificationText = notification.querySelector('.cart-notification-text');
+        
+        // Actualizar texto de la notificación
+        notificationText.textContent = `${productName} añadido al carrito`;
+        
+        // Mostrar notificación
+        notification.classList.add('show');
+        
+        // Ocultar después de 3 segundos
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+    // Método para añadir al carrito con notificación
+    addToCart(product) {
+        try {
+            console.log('Añadiendo producto:', product);
+            this.cartService.addToCart(product);
+            this.showCartNotification(product.title);
+            this.renderCartItems();
+            this.updateCartIcon();
+        } catch (error) {
+            console.error('Error al añadir producto:', error);
+        }
     }
 
     setupCartModal() {
