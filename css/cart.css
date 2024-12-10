@@ -189,7 +189,7 @@ body.modal-open {
     padding: 20px;
     border-top: 1px solid #eee;
     z-index: 10001;
-    display: flex;
+    display: none; /* Oculto por defecto */
     justify-content: center;
 }
 
@@ -239,7 +239,7 @@ body.modal-open {
         bottom: 0; 
         background-color: white;
         padding: 10px;
-        display: flex;
+        display: none; /* Oculto por defecto en móvil */
         justify-content: center;
         z-index: 10003;
         border-top: 1px solid #eee;

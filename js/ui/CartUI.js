@@ -23,7 +23,7 @@ class CartUI {
                 <div class="cart-total">
                     <span>Total: $<span class="total-amount">0</span></span>
                 </div>
-                <div class="cart-actions">
+                <div class="cart-actions" style="display: none;">
                     <button class="btn-empty-cart">Vaciar Carrito</button>
                 </div>
             </div>
@@ -32,6 +32,7 @@ class CartUI {
         this.modal = modal;
         this.cartItemsContainer = modal.querySelector('.cart-items');
         this.emptyCartBtn = modal.querySelector('.btn-empty-cart');
+        this.cartActionsContainer = modal.querySelector('.cart-actions');
     }
 
     setupEventListeners() {
@@ -100,7 +101,17 @@ class CartUI {
         if (cart.length === 0) {
             this.cartItemsContainer.innerHTML = '<p class="empty-cart">Tu carrito está vacío</p>';
             this.modal.querySelector('.total-amount').textContent = '0.00';
+            
+            // Ocultar el botón "Vaciar Carrito" cuando no hay productos
+            if (this.cartActionsContainer) {
+                this.cartActionsContainer.style.display = 'none';
+            }
             return;
+        }
+
+        // Mostrar el botón "Vaciar Carrito" cuando hay productos
+        if (this.cartActionsContainer) {
+            this.cartActionsContainer.style.display = 'flex';
         }
 
         cart.forEach(item => {
