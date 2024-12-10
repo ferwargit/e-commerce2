@@ -610,6 +610,78 @@ body.modal-open {
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1100;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        padding: 10px;
+        overflow: hidden; /* Prevenir scroll en el fondo del modal */
+    }
+
+    .product-detail-modal.show {
+        display: flex;
+        opacity: 1;
+    }
+
+    .product-detail-content {
+        width: 95%;
+        max-width: 500px;
+        max-height: 90vh;
+        background-color: white;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden; /* Limitar contenido dentro del modal */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transform: scale(0.9);
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        margin: 0;
+        justify-self: center;
+        align-self: center;
+    }
+
+    .product-detail-modal.show .product-detail-content {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .product-modal-grid {
+        display: flex;
+        flex-direction: column;
+        max-height: 70vh; /* Limitar altura del contenido */
+        overflow-y: auto; /* Scroll solo si es necesario */
+        gap: 1rem;
+        padding: 20px;
+        overscroll-behavior: contain; /* Prevenir scroll bounce */
+        -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    }
+
+    /* Personalizar scrollbar para WebKit (Chrome, Safari) */
+    .product-modal-grid::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .product-modal-grid::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    .product-modal-grid::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
         display: none; /* Volver a none para que JS controle */
         justify-content: center;
         align-items: center;
@@ -639,11 +711,6 @@ body.modal-open {
         margin: 0;
         justify-self: center; /* Centrar horizontalmente */
         align-self: center; /* Centrar verticalmente */
-    }
-
-    .product-detail-modal.show .product-detail-content {
-        transform: scale(1);
-        opacity: 1;
     }
 
     .product-modal-grid {
