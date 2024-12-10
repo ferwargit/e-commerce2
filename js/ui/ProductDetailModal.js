@@ -65,6 +65,7 @@ class ProductDetailModal {
         let startY;
         const modal = this.modalContainer;
         const content = modal.querySelector('.product-detail-content');
+        const grid = modal.querySelector('.product-modal-grid');
 
         content.addEventListener('touchstart', (e) => {
             startY = e.touches[0].clientY;
@@ -74,7 +75,8 @@ class ProductDetailModal {
             const currentY = e.touches[0].clientY;
             const deltaY = currentY - startY;
             
-            if (deltaY > 50) {  
+            // Solo cerrar si está en la parte superior del scroll y se desliza hacia abajo
+            if (deltaY > 50 && grid.scrollTop === 0) {  
                 this.closeModal();
             }
         });
