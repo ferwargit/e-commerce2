@@ -269,19 +269,18 @@ body.modal-open {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #4CAF50;
     color: white !important;
     padding: 15px 25px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 10006; 
+    z-index: 10006;
     display: flex;
     align-items: center;
     gap: 10px;
     opacity: 0;
     transition: all 0.3s ease-in-out;
     font-weight: 500;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 .cart-notification.show {
@@ -299,8 +298,15 @@ body.modal-open {
     width: 24px;
     height: 24px;
     background-color: white;
-    color: #4CAF50;
     border-radius: 50%;
+}
+
+.cart-notification-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+    stroke: #4a4a4a; /* Color gris oscuro para mejor visibilidad */
+    color: #4a4a4a; /* Asegurar consistencia de color */
 }
 
 /* Responsive */

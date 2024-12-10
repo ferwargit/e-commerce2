@@ -33,8 +33,8 @@ class CartUI {
         }
     }
 
-    showCartNotification(productName = 'Producto') {
-        console.log('Mostrando notificación para:', productName);
+    showCartNotification(message, type = 'success') {
+        console.log('Mostrando notificación:', message);
         const notification = document.querySelector('.cart-notification');
         
         if (!notification) {
@@ -44,9 +44,29 @@ class CartUI {
         }
 
         const notificationText = notification.querySelector('.cart-notification-text');
+        const notificationIcon = notification.querySelector('.cart-notification-icon');
         
         // Actualizar texto de la notificación
-        notificationText.textContent = `${productName} añadido al carrito`;
+        notificationText.textContent = message;
+
+        // Cambiar estilo según el tipo de notificación
+        if (type === 'warning') {
+            notification.style.backgroundColor = '#FFA500'; // Naranja para advertencias
+            notificationIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            `;
+        } else {
+            notification.style.backgroundColor = '#4CAF50'; // Verde para éxito
+            notificationIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            `;
+        }
         
         // Mostrar notificación
         notification.classList.add('show');
@@ -57,12 +77,20 @@ class CartUI {
         }, 3000);
     }
 
-    // Método para añadir al carrito con notificación
     addToCart(product) {
         try {
-            console.log('Añadiendo producto:', product);
+            // Verificar si el producto ya está en el carrito
+            const existingProduct = this.cartService.getCart().find(item => item.id === product.id);
+            
+            if (existingProduct && existingProduct.quantity >= 3) {
+                // Mostrar advertencia si se intenta añadir más de 3 unidades
+                this.showCartNotification('Máximo 3 unidades por producto', 'warning');
+                return;
+            }
+
+            // Añadir al carrito
             this.cartService.addToCart(product);
-            this.showCartNotification(product.title);
+            this.showCartNotification(`${product.title} añadido al carrito`);
             this.renderCartItems();
             this.updateCartIcon();
         } catch (error) {
@@ -230,6 +258,8 @@ class CartUI {
                     subtotalElement.textContent = newSubtotal;
                     
                     this.updateTotal();
+                } else {
+                    this.showCartNotification('Máximo 3 unidades por producto', 'warning');
                 }
             });
 
