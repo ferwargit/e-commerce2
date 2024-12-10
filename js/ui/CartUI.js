@@ -20,11 +20,11 @@ class CartUI {
                     </div>
                 </div>
                 <div class="cart-items"></div>
-                <div class="cart-total">
-                    <span>Total: $<span class="total-amount">0</span></span>
-                </div>
                 <div class="cart-actions" style="display: none;">
                     <button class="btn-empty-cart">Vaciar Carrito</button>
+                </div>
+                <div class="cart-total">
+                    <span>Total: $<span class="total-amount">0</span></span>
                 </div>
             </div>
         `;
