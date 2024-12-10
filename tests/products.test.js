@@ -275,6 +275,17 @@ describe('ProductCard', () => {
     expect(openModalSpy).toHaveBeenCalled();
   });
 
+  it('debería abrir el modal de detalles del producto al hacer clic en la imagen', () => {
+    const productCard = new ProductCard(mockProduct);
+    const openModalSpy = vi.spyOn(productCard, 'openProductDetailModal');
+    
+    const card = productCard.render();
+    const img = card.querySelector('img');
+    img.click();
+    
+    expect(openModalSpy).toHaveBeenCalled();
+  });
+
   it('debería crear un contenedor de imagen con la imagen correcta', () => {
     const { ProductCard, PLACEHOLDER_IMAGE } = productsModule;
 
