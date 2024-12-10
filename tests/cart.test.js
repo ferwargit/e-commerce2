@@ -313,3 +313,106 @@ describe('Observers de CartService', () => {
     expect(mockObserver3).toHaveBeenCalledWith([testProduct]);
   });
 });
+
+describe('Límites Avanzados de updateQuantity()', () => {
+  let cartService;
+  let testProduct;
+
+  beforeEach(() => {
+    // Configurar un mock de localStorage
+    const localStorageMock = {
+      getItem: vi.fn(),
+      setItem: vi.fn(),
+      clear: vi.fn()
+    };
+    global.localStorage = localStorageMock;
+
+    cartService = new CartService();
+    cartService.emptyCart();
+
+    testProduct = {
+      id: 1,
+      title: 'Producto de prueba',
+      price: 10.99,
+      quantity: 1
+    };
+
+    // Añadir un producto al carrito antes de cada test
+    cartService.addToCart(testProduct);
+  });
+
+  afterEach(() => {
+    // Limpiar el mock de localStorage
+    delete global.localStorage;
+  });
+
+  it('debería manejar actualización a cantidad 0 (eliminar producto)', () => {
+    cartService.updateQuantity(1, 0);
+    
+    expect(cartService.getCart().length).toBe(0);
+    expect(cartService.getCart()).toEqual([]);
+  });
+
+  it('debería limitar la cantidad máxima a 3', () => {
+    cartService.updateQuantity(1, 5);
+    
+    const updatedProduct = cartService.getCart()[0];
+    expect(updatedProduct.quantity).toBe(3);
+  });
+
+  it('debería limitar la cantidad mínima a 0', () => {
+    cartService.updateQuantity(1, -3);
+    
+    expect(cartService.getCart().length).toBe(0);
+  });
+
+  it('no debería hacer nada al intentar actualizar un producto no existente', () => {
+    const initialCart = [...cartService.getCart()];
+    
+    cartService.updateQuantity(999, 2);
+    
+    expect(cartService.getCart()).toEqual(initialCart);
+  });
+
+  it('debería notificar a los observers al actualizar cantidad', () => {
+    const mockObserver = vi.fn();
+    cartService.addObserver(mockObserver);
+    
+    cartService.updateQuantity(1, 2);
+    
+    expect(mockObserver).toHaveBeenCalledTimes(1);
+    expect(mockObserver.mock.calls[0][0][0].quantity).toBe(2);
+  });
+
+  it('debería guardar en localStorage después de actualizar cantidad', () => {
+    const localStorageSetItemSpy = vi.spyOn(global.localStorage, 'setItem');
+    
+    cartService.updateQuantity(1, 2);
+    
+    expect(localStorageSetItemSpy).toHaveBeenCalledWith('cart', expect.any(String));
+    localStorageSetItemSpy.mockRestore();
+  });
+
+  it('debería manejar múltiples actualizaciones de cantidad', () => {
+    // Incrementar a 2
+    cartService.updateQuantity(1, 2);
+    expect(cartService.getCart()[0].quantity).toBe(2);
+    
+    // Incrementar a 3
+    cartService.updateQuantity(1, 3);
+    expect(cartService.getCart()[0].quantity).toBe(3);
+    
+    // Intentar incrementar más allá de 3
+    cartService.updateQuantity(1, 5);
+    expect(cartService.getCart()[0].quantity).toBe(3);
+  });
+
+  it('debería mantener el precio original al actualizar cantidad', () => {
+    const originalPrice = testProduct.price;
+    
+    cartService.updateQuantity(1, 3);
+    
+    const updatedProduct = cartService.getCart()[0];
+    expect(updatedProduct.price).toBe(originalPrice);
+  });
+});
