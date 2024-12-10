@@ -1,7 +1,19 @@
 class CartService {
     constructor() {
-        this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Usar un método para obtener el carrito que pueda ser mockeado
+        this.cart = this.getInitialCart();
         this.observers = [];
+    }
+
+    // Método para obtener el carrito inicial, que puede ser sobrescrito en pruebas
+    getInitialCart() {
+        try {
+            const storedCart = localStorage.getItem('cart');
+            return storedCart ? JSON.parse(storedCart) : [];
+        } catch (error) {
+            console.error('Error al obtener carrito inicial:', error);
+            return [];
+        }
     }
 
     addToCart(product, cartUI = null) {
