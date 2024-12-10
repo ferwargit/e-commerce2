@@ -1,6 +1,9 @@
 class CartUI {
     constructor(cartService) {
         this.cartService = cartService;
+        this.isAddingToCart = false;  // Nueva bandera para prevenir múltiples clics
+        this.lastAddedProductId = null;
+        this.lastAddedTimestamp = 0;
         this.cartIcon = document.querySelector('.ri-shopping-cart-line');
         this.modal = null;
         this.cartItemsContainer = null;
@@ -176,31 +179,67 @@ class CartUI {
     }
 
     addToCart(product) {
+        // Prevenir múltiples clics rápidos del mismo producto
+        const currentTime = Date.now();
+        const MIN_CLICK_INTERVAL = 300;  // 300ms entre clics
+
+        if (this.isAddingToCart) {
+            console.warn('Operación en progreso. Por favor, espere.');
+            return;
+        }
+
+        // Prevenir clics rápidos del mismo producto
+        if (this.lastAddedProductId === product.id && 
+            currentTime - this.lastAddedTimestamp < MIN_CLICK_INTERVAL) {
+            console.warn('Clics demasiado rápidos. Espere un momento.');
+            return;
+        }
+
         try {
+            this.isAddingToCart = true;  // Bloquear más adiciones
+
             // Verificar si el producto ya está en el carrito
-            const existingProduct = this.cartService.getCart().find(item => item.id === product.id);
+            const cart = this.cartService.getCart();
+            const existingProduct = cart.find(item => item.id === product.id);
             
+            console.log('Producto a añadir:', product);
+            console.log('Carrito actual:', cart);
+            console.log('Producto existente:', existingProduct);
+
             // Verificar límite de 8 productos únicos antes de añadir
-            if (this.cartService.getCart().length >= 8 && !this.cartService.getCart().some(item => item.id === product.id)) {
+            if (cart.length >= 8 && !cart.some(item => item.id === product.id)) {
                 this.showCartNotification('Máximo 8 productos únicos', 'error');
+                this.isAddingToCart = false;
                 return;
             }
 
             // Si ya existe, verificar límite de 3 unidades
-            if (existingProduct && existingProduct.quantity >= 3) {
-                this.showCartNotification('Máximo 3 unidades por producto', 'warning');
-                return;
+            if (existingProduct) {
+                console.log('Cantidad actual del producto:', existingProduct.quantity);
+                
+                if (existingProduct.quantity >= 3) {
+                    this.showCartNotification('Máximo 3 unidades por producto', 'warning');
+                    this.isAddingToCart = false;
+                    return;
+                }
             }
 
             // Añadir al carrito
             this.cartService.addToCart(product, this);
             
+            // Actualizar timestamps
+            this.lastAddedProductId = product.id;
+            this.lastAddedTimestamp = currentTime;
+
             // Mostrar notificación verde
             this.showCartNotification(`${product.title} añadido al carrito`, 'success');
             this.renderCartItems();
             this.updateCartIcon();
         } catch (error) {
             console.error('Error al añadir producto:', error);
+        } finally {
+            // Siempre desbloquear, incluso si hay un error
+            this.isAddingToCart = false;
         }
     }
 
