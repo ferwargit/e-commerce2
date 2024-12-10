@@ -331,6 +331,18 @@ describe('ProductCard', () => {
     expect(img.src).toBe(PLACEHOLDER_IMAGE);
   });
 
+  it('debería manejar productos sin imagen estableciendo una imagen de reemplazo', () => {
+    const productSinImagen = { 
+      ...mockProduct, 
+      image: null 
+    };
+    const productCard = new ProductCard(productSinImagen);
+    const card = productCard.render();
+    
+    const img = card.querySelector('img');
+    expect(img.src).toBe(productsModule.PLACEHOLDER_IMAGE);
+  });
+
   it('debería crear un elemento con atributos, texto y clase correctos', () => {
     const { DOMHelpers } = productsModule;
 

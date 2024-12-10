@@ -46,7 +46,7 @@ export class ProductCard {
             tag: 'img',
             className: 'product-image1',
             attributes: {
-                src: this.product.image,
+                src: this.product.image || PLACEHOLDER_IMAGE,
                 alt: this.product.title
             }
         });
