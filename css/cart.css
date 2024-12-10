@@ -221,10 +221,24 @@ body.modal-open {
 @media (max-width: 480px) {
     .cart-modal-content {
         max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        position: relative;
+    }
+
+    .cart-modal-header {
+        flex-shrink: 0;
+    }
+
+    .cart-items {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-bottom: 180px; /* Más espacio para total y botón */
     }
 
     .cart-total {
-        position: sticky;
+        position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -232,14 +246,18 @@ body.modal-open {
         background-color: white;
         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         z-index: 10002;
+        text-align: center;
+        font-weight: bold;
     }
 
     .cart-actions {
-        position: sticky;
-        bottom: 0; 
+        position: fixed;
+        bottom: 50px; /* Posicionado justo arriba del total */
+        left: 0;
+        width: 100%;
         background-color: white;
         padding: 10px;
-        display: none; /* Oculto por defecto en móvil */
+        display: none;
         justify-content: center;
         z-index: 10003;
         border-top: 1px solid #eee;
@@ -251,7 +269,13 @@ body.modal-open {
         margin: 0 15px !important;
     }
 
-    .cart-items {
-        padding-bottom: 120px;
+    .empty-cart {
+        text-align: center;
+        color: #666;
+        margin-top: 20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
