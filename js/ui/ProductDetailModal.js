@@ -41,7 +41,6 @@ class ProductDetailModal {
 
         document.body.appendChild(this.modalContainer);
         this.setupEventListeners();
-        this.setupTouchGestures();
     }
 
     setupEventListeners() {
@@ -56,27 +55,6 @@ class ProductDetailModal {
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                this.closeModal();
-            }
-        });
-    }
-
-    setupTouchGestures() {
-        let startY;
-        const modal = this.modalContainer;
-        const content = modal.querySelector('.product-detail-content');
-        const grid = modal.querySelector('.product-modal-grid');
-
-        content.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-        });
-
-        content.addEventListener('touchmove', (e) => {
-            const currentY = e.touches[0].clientY;
-            const deltaY = currentY - startY;
-            
-            // Solo cerrar si está en la parte superior del scroll y se desliza hacia abajo
-            if (deltaY > 50 && grid.scrollTop === 0) {  
                 this.closeModal();
             }
         });
