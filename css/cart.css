@@ -113,7 +113,8 @@ body.modal-open {
 
 .cart-item {
     display: flex !important;
-    padding: 10px !important;
+    align-items: center !important;
+    padding: 15px !important;
     border-bottom: 1px solid #eee;
     gap: 15px;
     background-color: white;
@@ -124,24 +125,38 @@ body.modal-open {
     width: 80px;
     height: 80px;
     object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 8px;
 }
 
 .cart-item-details {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .cart-item-details h4 {
-    margin: 0 0 5px 0;
+    margin: 0;
     font-size: 14px;
     color: #333;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.cart-item-details p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
 }
 
 .quantity-controls {
     display: flex !important;
     align-items: center !important;
+    justify-content: space-between;
+    width: 100%;
     gap: 10px;
     margin-top: 10px;
-    flex-wrap: nowrap !important;
 }
 
 .quantity-btn {
@@ -153,11 +168,15 @@ body.modal-open {
     color: #333 !important;
     margin: 0 !important;
     font-size: 14px !important;
+    min-width: 35px;
+    text-align: center;
 }
 
 .quantity {
     margin: 0 10px !important;
     color: #333;
+    min-width: 30px;
+    text-align: center;
 }
 
 .remove-item {
@@ -167,8 +186,8 @@ body.modal-open {
     padding: 5px 10px !important;
     cursor: pointer;
     border-radius: 3px !important;
-    margin-left: auto !important;
     font-size: 14px !important;
+    margin-left: auto !important;
 }
 
 .cart-actions {
@@ -277,5 +296,44 @@ body.modal-open {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+
+    .cart-item {
+        padding: 10px !important;
+        gap: 10px;
+    }
+
+    .cart-item img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cart-item-details h4 {
+        font-size: 13px;
+    }
+
+    .cart-item-details p {
+        font-size: 12px;
+    }
+
+    .quantity-controls {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .quantity-btn {
+        padding: 3px 8px !important;
+        font-size: 12px !important;
+        min-width: 30px;
+    }
+
+    .quantity {
+        margin: 0 5px !important;
+        min-width: 25px;
+    }
+
+    .remove-item {
+        padding: 3px 8px !important;
+        font-size: 12px !important;
     }
 }
