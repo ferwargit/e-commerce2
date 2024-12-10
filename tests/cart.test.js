@@ -142,4 +142,34 @@ describe('CartService', () => {
     expect(cartService.cart.length).toBe(1);
     expect(cartService.cart[0].quantity).toBe(3);
   });
+
+  it('debería mostrar una advertencia al intentar añadir más de 8 productos únicos', () => {
+    const cartService = new CartService();
+    
+    // Añadir 8 productos diferentes
+    for (let i = 1; i <= 8; i++) {
+        cartService.addToCart({
+            id: i,
+            title: `Producto ${i}`,
+            price: 10.99,
+            quantity: 1
+        });
+    }
+
+    // Intentar añadir un noveno producto
+    const newProduct = {
+        id: 9,
+        title: 'Producto 9',
+        price: 15.99,
+        quantity: 1
+    };
+
+    const result = cartService.addToCart(newProduct);
+
+    // Verificar que no se añadió el producto
+    expect(result).toBe(false);
+    
+    // Verificar que el carrito sigue teniendo 8 productos únicos
+    expect(cartService.getCart().length).toBe(8);
+  });
 });

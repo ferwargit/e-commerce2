@@ -27,26 +27,14 @@ class CartService {
         console.log('Productos actuales:', this.cart.length);
         console.log('Productos únicos:', this.cart.map(item => item.id));
 
-        // Verificar límite de productos únicos (8 máximo)
+        // Verificar límite de productos únicos
         if (this.cart.length >= 8 && !this.cart.some(item => item.id === product.id)) {
             console.log('Límite de 8 productos únicos alcanzado');
             
             // Usar notificación de CartUI si está disponible
             if (cartUI && typeof cartUI.showCartNotification === 'function') {
-                console.log('Intentando mostrar notificación');
-                console.log('CartUI disponible:', !!cartUI);
-                console.log('Método showCartNotification existe:', typeof cartUI.showCartNotification === 'function');
-                
-                // Intentar mostrar la notificación de varias maneras
                 try {
-                    // Cancelar cualquier notificación previa
-                    const notification = document.querySelector('.cart-notification');
-                    if (notification) {
-                        notification.classList.remove('show');
-                    }
-                    
-                    // Mostrar notificación de error
-                    cartUI.showCartNotification('Máximo 8 productos únicos', 'error');
+                    cartUI.showCartNotification('Máximo 8 productos únicos', 'warning');
                 } catch (error) {
                     console.error('Error al mostrar notificación:', error);
                 }
@@ -55,7 +43,7 @@ class CartService {
                 console.log('CartUI:', cartUI);
             }
             
-            return;
+            return false;
         }
 
         const existingItem = this.cart.find(item => item.id === product.id);
@@ -66,7 +54,7 @@ class CartService {
                 if (cartUI && typeof cartUI.showCartNotification === 'function') {
                     cartUI.showCartNotification('Máximo 3 unidades por producto', 'warning');
                 }
-                return;
+                return false;
             }
             
             // Si ya existe, incrementar hasta un máximo de 3
@@ -77,6 +65,7 @@ class CartService {
         }
         this.saveCart();
         this.notifyObservers();
+        return true;
     }
 
     removeFromCart(productId) {
