@@ -180,44 +180,46 @@ class ProductGridController {
     }
 
     async initialize() {
+        const loadingModal = document.getElementById('loading-modal');
+        const categoryFilter = document.getElementById('categoryFilter');
+        
         try {
-            this.products = await ProductService.fetchProducts();
+            // Mostrar modal de carga
+            loadingModal.classList.add('show');
             
-            // Obtener categoría de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const initialCategory = urlParams.get('category');
-
+            const products = await ProductService.fetchProducts();
+            this.products = products;
+            
             // Configurar filtro de categorías
-            const categoryFilter = new CategoryFilter(
-                this.products.map(p => p.category),
-                category => this.handleCategoryFilter(category)
-            );
-            categoryFilter.render();
+            const categories = ['all', ...new Set(products.map(p => p.category))];
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category === 'all' ? 'Todas las Categorías' : category;
+                categoryFilter.appendChild(option);
+            });
 
-            // Si hay una categoría inicial, aplicar filtro
-            if (initialCategory) {
-                const categorySelect = document.getElementById('categoryFilter');
-                if (categorySelect) {
-                    // Encontrar opción que coincida exactamente (case-insensitive)
-                    const matchingOption = Array.from(categorySelect.options).find(
-                        option => option.value.toLowerCase() === initialCategory.toLowerCase()
-                    );
-
-                    if (matchingOption) {
-                        categorySelect.value = matchingOption.value;
-                        this.handleCategoryFilter(matchingOption.value);
-                    }
-                }
+            // Configurar evento de filtro
+            categoryFilter.addEventListener('change', (e) => {
+                this.handleCategoryFilter(e.target.value);
+            });
+            
+            // Filtrar por categoría si existe en la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            
+            if (category) {
+                categoryFilter.value = category;
+                this.handleCategoryFilter(category);
             } else {
-                // Si no hay categoría inicial, mostrar todos los productos
-                this.displayProducts(this.products);
+                this.displayProducts(products);
             }
-
         } catch (error) {
-            console.error("Error:", error);
-            if (this.productGrid) {
-                this.productGrid.innerHTML = '<div class="error-message">Error al cargar los productos</div>';
-            }
+            console.error('Error al cargar productos:', error);
+            // Opcional: mostrar mensaje de error al usuario
+        } finally {
+            // Ocultar modal de carga
+            loadingModal.classList.remove('show');
         }
     }
 }
