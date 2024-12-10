@@ -1,12 +1,12 @@
 // Constants
-const API_URL = 'https://fakestoreapi.com/products';
-const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
+export const API_URL = 'https://fakestoreapi.com/products';
+export const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
 
 import { cartUI } from '../js/cart-init.js';
 import ProductDetailModal from '../js/ui/ProductDetailModal.js';
 
 // Product Service
-const ProductService = {
+export const ProductService = {
     async fetchProducts() {
         const response = await fetch(API_URL);
         if (!response.ok) {
@@ -17,7 +17,7 @@ const ProductService = {
 };
 
 // DOM Helpers
-const DOMHelpers = {
+export const DOMHelpers = {
     createElement({ tag, className, text, attributes = {} }) {
         const element = document.createElement(tag);
         if (className) element.className = className;
@@ -30,7 +30,7 @@ const DOMHelpers = {
 };
 
 // Product Card Component
-class ProductCard {
+export class ProductCard {
     constructor(product) {
         this.product = product;
         this.productDetailModal = null;
@@ -60,6 +60,32 @@ class ProductCard {
 
         imageContainer.appendChild(img);
         return imageContainer;
+    }
+
+    createAddToCartButton() {
+        const addToCartButton = DOMHelpers.createElement({
+            tag: 'button',
+            className: 'btn-add-to-cart',
+            text: 'Añadir al Carrito',
+            attributes: {
+                type: 'button'
+            }
+        });
+
+        // Añadir evento al botón para añadir al carrito
+        addToCartButton.addEventListener('click', () => {
+            // Verificar que cartUI esté definido
+            if (typeof cartUI !== 'undefined') {
+                cartUI.addToCart({
+                    ...this.product,
+                    quantity: 1
+                });
+            } else {
+                console.warn('CartUI no está inicializado');
+            }
+        });
+
+        return addToCartButton;
     }
 
     // Método para inicializar y abrir el modal de producto
@@ -94,23 +120,7 @@ class ProductCard {
             text: `$${this.product.price.toFixed(2)}`
         });
 
-        const addToCartButton = DOMHelpers.createElement({
-            tag: 'button',
-            className: 'btn-add-to-cart',
-            text: 'Añadir al Carrito',
-            attributes: {
-                'data-id': this.product.id.toString()
-            }
-        });
-
-        // Agregar la funcionalidad del carrito al botón existente
-        addToCartButton.addEventListener('click', () => {
-            if (cartUI) {
-                cartUI.addToCart(this.product);
-            } else {
-                console.error('CartUI no está inicializado');
-            }
-        });
+        const addToCartButton = this.createAddToCartButton();
 
         card.appendChild(imageContainer);
         card.appendChild(title);
@@ -122,7 +132,7 @@ class ProductCard {
 }
 
 // Category Filter Component
-class CategoryFilter {
+export class CategoryFilter {
     constructor(categories, onFilterChange) {
         this.categories = categories;
         this.onFilterChange = onFilterChange;
@@ -156,7 +166,7 @@ class CategoryFilter {
 }
 
 // Product Grid Controller
-class ProductGridController {
+export class ProductGridController {
     constructor() {
         this.productGrid = document.querySelector('.product-grid');
         this.products = [];
