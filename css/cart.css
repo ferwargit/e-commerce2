@@ -190,6 +190,22 @@ body.modal-open {
     margin-left: auto !important;
 }
 
+.item-subtotal {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.item-subtotal span {
+    background-color: #f4f4f4;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
 .cart-actions {
     position: sticky;
     bottom: 0;
@@ -335,5 +351,13 @@ body.modal-open {
     .remove-item {
         padding: 3px 8px !important;
         font-size: 12px !important;
+    }
+
+    .item-subtotal {
+        font-size: 12px;
+    }
+
+    .item-subtotal span {
+        padding: 3px 8px;
     }
 }

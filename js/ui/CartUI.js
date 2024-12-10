@@ -98,68 +98,85 @@ class CartUI {
         const cart = this.cartService.getCart();
         this.cartItemsContainer.innerHTML = '';
 
-        // Asegurar que el total siempre sea visible
-        const totalElement = this.modal.querySelector('.total-amount');
-        const cartTotalContainer = this.modal.querySelector('.cart-total');
-
         if (cart.length === 0) {
-            // Mostrar mensaje de carrito vacío centrado
             this.cartItemsContainer.innerHTML = '<p class="empty-cart">Tu carrito está vacío</p>';
             
             // Establecer total a 0
-            totalElement.textContent = '0.00';
+            this.modal.querySelector('.total-amount').textContent = '0.00';
             
             // Ocultar botón de vaciar carrito
             if (this.cartActionsContainer) {
                 this.cartActionsContainer.style.display = 'none';
             }
-        } else {
-            // Mostrar productos
-            cart.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'cart-item';
-                itemElement.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}">
-                    <div class="cart-item-details">
-                        <h4>${item.title}</h4>
-                        <p>$${item.price}</p>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus">-</button>
-                            <span class="quantity">${item.quantity}</span>
-                            <button class="quantity-btn plus">+</button>
-                            <button class="remove-item">Eliminar</button>
-                        </div>
+            return;
+        }
+
+        // Mostrar botón de vaciar carrito
+        if (this.cartActionsContainer) {
+            this.cartActionsContainer.style.display = 'flex';
+        }
+
+        cart.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'cart-item';
+            
+            // Calcular subtotal del producto
+            const subtotal = (item.price * item.quantity).toFixed(2);
+            
+            itemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.title}">
+                <div class="cart-item-details">
+                    <h4>${item.title}</h4>
+                    <p>Precio unitario: $${item.price}</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <span class="quantity">${item.quantity}</span>
+                        <button class="quantity-btn plus">+</button>
+                        <button class="remove-item">Eliminar</button>
                     </div>
-                `;
+                    <div class="item-subtotal">
+                        <span>Subtotal: $<span class="subtotal-amount">${subtotal}</span></span>
+                    </div>
+                </div>
+            `;
 
-                // Eventos para los botones de cantidad
-                const minusBtn = itemElement.querySelector('.minus');
-                const plusBtn = itemElement.querySelector('.plus');
-                const removeBtn = itemElement.querySelector('.remove-item');
+            // Eventos para los botones de cantidad
+            const minusBtn = itemElement.querySelector('.minus');
+            const plusBtn = itemElement.querySelector('.plus');
+            const removeBtn = itemElement.querySelector('.remove-item');
+            const subtotalElement = itemElement.querySelector('.subtotal-amount');
 
-                minusBtn.addEventListener('click', () => {
+            minusBtn.addEventListener('click', () => {
+                if (item.quantity > 1) {
                     this.cartService.updateQuantity(item.id, item.quantity - 1);
+                    
+                    // Actualizar subtotal
+                    const newSubtotal = ((item.price * (item.quantity - 1)).toFixed(2));
+                    subtotalElement.textContent = newSubtotal;
+                    
                     this.updateTotal();
-                });
-
-                plusBtn.addEventListener('click', () => {
-                    this.cartService.updateQuantity(item.id, item.quantity + 1);
-                    this.updateTotal();
-                });
-
-                removeBtn.addEventListener('click', () => {
-                    this.cartService.removeFromCart(item.id);
-                    this.updateTotal();
-                });
-
-                this.cartItemsContainer.appendChild(itemElement);
+                }
             });
 
-            // Mostrar botón de vaciar carrito
-            if (this.cartActionsContainer) {
-                this.cartActionsContainer.style.display = 'flex';
-            }
-        }
+            plusBtn.addEventListener('click', () => {
+                if (item.quantity < 3) {
+                    this.cartService.updateQuantity(item.id, item.quantity + 1);
+                    
+                    // Actualizar subtotal
+                    const newSubtotal = ((item.price * (item.quantity + 1)).toFixed(2));
+                    subtotalElement.textContent = newSubtotal;
+                    
+                    this.updateTotal();
+                }
+            });
+
+            removeBtn.addEventListener('click', () => {
+                this.cartService.removeFromCart(item.id);
+                this.updateTotal();
+            });
+
+            this.cartItemsContainer.appendChild(itemElement);
+        });
 
         // Actualizar total siempre
         this.updateTotal();
