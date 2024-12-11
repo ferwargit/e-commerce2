@@ -252,4 +252,92 @@ describe('CartUI', () => {
             expect(badges[0].textContent).toBe('3');
         });
     });
+
+    describe('openCart', () => {
+        let cartService;
+        let cartUI;
+        let cartIcon;
+
+        beforeEach(() => {
+            // Configurar DOM mínimo para pruebas
+            document.body.innerHTML = `
+                <div class="icons">
+                    <a href="#"><i class="ri-shopping-cart-line"></i></a>
+                </div>
+                <div id="cart-modal"></div>
+            `;
+
+            // Usar fake timers
+            vi.useFakeTimers();
+
+            // Crear mocks
+            cartService = new CartService({ mockLocalStorage: true });
+            
+            // Espiar métodos relevantes
+            vi.spyOn(cartService, 'getItemCount');
+            vi.spyOn(console, 'log');
+            vi.spyOn(console, 'error');
+            
+            // Crear CartUI
+            cartUI = new CartUI(cartService);
+            
+            // Obtener el ícono del carrito
+            cartIcon = document.querySelector('.ri-shopping-cart-line');
+        });
+
+        afterEach(() => {
+            // Restaurar timers y mocks
+            vi.useRealTimers();
+            vi.restoreAllMocks();
+            
+            // Limpiar el DOM
+            document.body.innerHTML = '';
+        });
+
+        it('debe abrir el modal del carrito correctamente', () => {
+            // Llamar a openCart
+            cartUI.openCart();
+
+            // Verificar que el modal está visible
+            expect(cartUI.modal.style.display).toBe('block');
+            expect(document.body.classList.contains('modal-open')).toBe(true);
+        });
+
+        it('debe renderizar los elementos del carrito al abrirlo', () => {
+            // Espiar renderCartItems
+            const renderSpy = vi.spyOn(cartUI, 'renderCartItems');
+
+            // Llamar a openCart
+            cartUI.openCart();
+
+            // Verificar que se llamó a renderCartItems
+            expect(renderSpy).toHaveBeenCalled();
+        });
+
+        it('debe manejar la ausencia de modal de manera elegante', () => {
+            // Eliminar el modal para simular un error de inicialización
+            cartUI.modal = null;
+
+            // Espiar console.error
+            const errorSpy = vi.spyOn(console, 'error');
+
+            // Llamar a openCart
+            cartUI.openCart();
+
+            // Verificar que se registró un error
+            expect(errorSpy).toHaveBeenCalledWith('El modal del carrito no está inicializado');
+        });
+
+        it('debe registrar un mensaje de registro al abrir el carrito', () => {
+            // Espiar console.log
+            const logSpy = vi.spyOn(console, 'log');
+
+            // Llamar a openCart
+            cartUI.openCart();
+
+            // Verificar los mensajes de registro
+            expect(logSpy).toHaveBeenCalledWith('Método openCart() llamado');
+            expect(logSpy).toHaveBeenCalledWith('Carrito abierto');
+        });
+    });
 });
