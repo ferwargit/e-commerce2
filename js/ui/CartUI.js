@@ -327,6 +327,13 @@ class CartUI {
 
     updateCartIcon() {
         const count = this.cartService.getItemCount();
+        
+        // Si no hay ícono de carrito, no hacer nada
+        if (!this.cartIcon) {
+            console.warn('No se puede actualizar ícono de carrito: ícono no encontrado');
+            return;
+        }
+
         // Actualizar el número en el ícono del carrito
         let badge = this.cartIcon.querySelector('.cart-count');
         if (count > 0) {
