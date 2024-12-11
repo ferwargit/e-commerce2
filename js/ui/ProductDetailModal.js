@@ -135,8 +135,11 @@ class ProductDetailModal {
     }
 
     generateStarRating(rating) {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        // Normalizar el rating entre 0 y 5
+        const normalizedRating = Math.max(0, Math.min(5, rating));
+        
+        const fullStars = Math.floor(normalizedRating);
+        const halfStar = normalizedRating % 1 >= 0.5 ? 1 : 0;
         const emptyStars = 5 - fullStars - halfStar;
 
         let starsHTML = '';
