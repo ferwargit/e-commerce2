@@ -12,6 +12,17 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             reporter: ['text', 'json', 'html']
+        },
+        deps: {
+            inline: [
+                /\/js\//,  // Incluir módulos de js para pruebas
+                'vitest'
+            ]
+        }
+    },
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./js', import.meta.url))
         }
     }
 });
