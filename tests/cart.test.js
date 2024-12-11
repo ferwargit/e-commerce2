@@ -297,4 +297,69 @@ describe('CartService', () => {
             });
         });
     });
+
+    describe('Eliminación de productos del carrito', () => {
+        it('debe eliminar un producto existente del carrito', () => {
+            const producto1 = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            const producto2 = {
+                id: 2,
+                title: 'Test Product 2',
+                price: 10.99,
+                quantity: 1
+            };
+            
+            cartService.addToCart(producto1);
+            cartService.addToCart(producto2);
+            
+            const resultadoEliminacion = cartService.removeFromCart(producto1.id);
+            
+            expect(resultadoEliminacion).toBe(true);
+            expect(cartService.getCart().length).toBe(1);
+            expect(cartService.getCart()[0].id).toBe(producto2.id);
+        });
+
+        it('debe devolver false al intentar eliminar un producto inexistente', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const resultadoEliminacion = cartService.removeFromCart(999); // ID inexistente
+            
+            expect(resultadoEliminacion).toBe(false);
+            expect(cartService.getCart().length).toBe(1);
+        });
+
+        it('debe manejar la eliminación cuando el carrito está vacío', () => {
+            const resultadoEliminacion = cartService.removeFromCart(1);
+            
+            expect(resultadoEliminacion).toBe(false);
+            expect(cartService.getCart().length).toBe(0);
+        });
+
+        it('debe actualizar localStorage al eliminar un producto', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const localStorageSetItemSpy = vi.spyOn(localStorage, 'setItem');
+            
+            cartService.removeFromCart(producto.id);
+            
+            expect(localStorageSetItemSpy).toHaveBeenCalledTimes(2); // Una por addToCart, otra por removeFromCart
+            localStorageSetItemSpy.mockRestore();
+        });
+    });
 });
