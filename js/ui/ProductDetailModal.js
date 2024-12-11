@@ -1,7 +1,8 @@
 class ProductDetailModal {
-    constructor(cartUI) {
-        this.cartUI = cartUI;
+    constructor(cartService) {
+        this.cartService = cartService;
         this.modalContainer = null;
+        this.currentProduct = null;
         this.initModal();
     }
 
@@ -34,6 +35,9 @@ class ProductDetailModal {
                             <h4>Categoría</h4>
                             <p class="category-text"></p>
                         </div>
+                        <div class="product-modal-actions">
+                            <button class="btn-add-to-cart">Añadir al Carrito</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,6 +62,14 @@ class ProductDetailModal {
                 this.closeModal();
             }
         });
+
+        // Añadir evento al botón de añadir al carrito
+        const addToCartBtn = this.modalContainer.querySelector('.btn-add-to-cart');
+        addToCartBtn.addEventListener('click', () => {
+            if (this.currentProduct) {
+                this.addToCart(this.currentProduct);
+            }
+        });
     }
 
     openModal(product) {
@@ -68,6 +80,9 @@ class ProductDetailModal {
         const modalCategory = this.modalContainer.querySelector('.category-text');
         const modalStars = this.modalContainer.querySelector('.stars');
         const modalReviewCount = this.modalContainer.querySelector('.review-count');
+
+        // Guardar el producto actual para usar en addToCart
+        this.currentProduct = product;
 
         modalImage.src = product.image;
         modalTitle.textContent = product.title;
@@ -86,6 +101,37 @@ class ProductDetailModal {
     closeModal() {
         // Remover clase show para ocultar el modal
         this.modalContainer.classList.remove('show');
+    }
+
+    addToCart(product) {
+        console.log('Añadiendo producto al carrito:', product);
+        console.log('CartService:', this.cartService);
+        console.log('window.cartUI:', window.cartUI);
+
+        if (this.cartService) {
+            const added = this.cartService.addToCart({
+                ...product,
+                quantity: 1
+            }, {
+                // Usar la notificación del servicio de carrito
+                notificationCallback: (message, type) => {
+                    if (window.cartUI) {
+                        window.cartUI.showCartNotification(message, type);
+                    }
+                }
+            });
+
+            console.log('Producto añadido:', added);
+
+            // Mostrar notificación si el producto se añadió correctamente
+            if (added && window.cartUI) {
+                window.cartUI.showCartNotification(`${product.title} añadido al carrito`, 'success');
+            } else {
+                console.warn('No se pudo añadir el producto o no hay notificación disponible');
+            }
+        } else {
+            console.warn('CartService no está inicializado');
+        }
     }
 
     generateStarRating(rating) {

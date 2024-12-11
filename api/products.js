@@ -2,7 +2,7 @@
 export const API_URL = 'https://fakestoreapi.com/products';
 export const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/300/cccccc/666666?text=Imagen+no+disponible';
 
-import { cartUI } from '../js/cart-init.js';
+import { cartService } from '../js/cart-init.js';
 import ProductDetailModal from '../js/ui/ProductDetailModal.js';
 
 // Product Service
@@ -74,14 +74,24 @@ export class ProductCard {
 
         // Añadir evento al botón para añadir al carrito
         addToCartButton.addEventListener('click', () => {
-            // Verificar que cartUI esté definido
-            if (typeof cartUI !== 'undefined') {
-                cartUI.addToCart({
+            // Verificar que cartService y cartUI estén definidos
+            if (typeof cartService !== 'undefined' && typeof window.cartUI !== 'undefined') {
+                const added = cartService.addToCart({
                     ...this.product,
                     quantity: 1
+                }, {
+                    // Usar la notificación del servicio de carrito
+                    notificationCallback: (message, type) => {
+                        window.cartUI.showCartNotification(message, type);
+                    }
                 });
+
+                // Mostrar notificación si el producto se añadió correctamente
+                if (added) {
+                    window.cartUI.showCartNotification(`${this.product.title} añadido al carrito`, 'success');
+                }
             } else {
-                console.warn('CartUI no está inicializado');
+                console.warn('CartService o CartUI no está inicializado');
             }
         });
 
@@ -92,7 +102,7 @@ export class ProductCard {
     openProductDetailModal() {
         // Crear modal solo una vez
         if (!this.productDetailModal) {
-            this.productDetailModal = new ProductDetailModal(cartUI);
+            this.productDetailModal = new ProductDetailModal(cartService);
         }
         
         // Abrir modal con los datos del producto
@@ -170,11 +180,16 @@ export class ProductGridController {
     constructor() {
         this.productGrid = document.querySelector('.product-grid');
         this.products = [];
+        console.log('ProductGridController inicializado', this.productGrid);
     }
 
     displayProducts(products) {
-        if (!this.productGrid) return;
+        if (!this.productGrid) {
+            console.error('No se encontró el grid de productos');
+            return;
+        }
         
+        console.log('Mostrando productos:', products.length);
         this.productGrid.innerHTML = '';
         products.forEach(product => {
             const card = new ProductCard(product);
@@ -183,6 +198,7 @@ export class ProductGridController {
     }
 
     handleCategoryFilter(category) {
+        console.log('Filtrando por categoría:', category);
         const filteredProducts = category === 'all'
             ? this.products
             : this.products.filter(product => product.category.toLowerCase() === category.toLowerCase());
@@ -193,15 +209,21 @@ export class ProductGridController {
         const loadingModal = document.getElementById('loading-modal');
         const categoryFilter = document.getElementById('categoryFilter');
         
+        console.log('Inicializando ProductGridController');
+        console.log('Loading Modal:', loadingModal);
+        console.log('Category Filter:', categoryFilter);
+        
         try {
             // Mostrar modal de carga
             loadingModal.classList.add('show');
             
             const products = await ProductService.fetchProducts();
+            console.log('Productos obtenidos:', products);
             this.products = products;
             
             // Configurar filtro de categorías
             const categories = ['all', ...new Set(products.map(p => p.category))];
+            console.log('Categorías:', categories);
             categories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category;
@@ -217,6 +239,8 @@ export class ProductGridController {
             // Filtrar por categoría si existe en la URL
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
+            
+            console.log('Categoría de URL:', category);
             
             if (category) {
                 categoryFilter.value = category;

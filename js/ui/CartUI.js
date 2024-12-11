@@ -1,38 +1,91 @@
 class CartUI {
     constructor(cartService) {
+        console.log('Iniciando constructor de CartUI');
         this.cartService = cartService;
         this.isAddingToCart = false;  // Nueva bandera para prevenir múltiples clics
         this.lastAddedProductId = null;
         this.lastAddedTimestamp = 0;
-        this.cartIcon = document.querySelector('.ri-shopping-cart-line');
+        
+        // Depuración de selectores de ícono de carrito
+        console.log('Buscando ícono de carrito');
+        console.log('Selector 1:', document.querySelector('.ri-shopping-cart-line'));
+        console.log('Selector 2:', document.querySelector('.icons a i.ri-shopping-cart-line'));
+        console.log('Selector 3:', document.querySelector('header .icons a i.ri-shopping-cart-line'));
+        console.log('Todos los íconos de carrito:', document.querySelectorAll('.ri-shopping-cart-line, .icons a i.ri-shopping-cart-line'));
+        
+        // Buscar ícono del carrito en múltiples selectores
+        this.cartIcon = document.querySelector('.ri-shopping-cart-line') || 
+                        document.querySelector('.icons a i.ri-shopping-cart-line') || 
+                        document.querySelector('header .icons a i.ri-shopping-cart-line');
+        
+        console.log('Ícono de carrito encontrado:', this.cartIcon);
+        
         this.modal = null;
         this.cartItemsContainer = null;
         this.emptyCartBtn = null;
         this.cartActionsContainer = null;
-        
+
+        // Inicializar elementos de notificación temprano
+        this.initializeNotificationElement();
+
         // Crear contenedor de notificaciones
         this.createNotificationContainer();
         
         this.setupCartModal();
         this.setupEventListeners();
         this.updateCartIcon();
+
+        // Si no se encuentra el ícono del carrito, intentar configurar evento en todos los enlaces
+        if (!this.cartIcon) {
+            console.warn('No se encontró el ícono del carrito. Buscando enlaces alternativos.');
+            const cartLinks = document.querySelectorAll('a[href="#"]');
+            console.log('Enlaces encontrados:', cartLinks.length);
+            
+            cartLinks.forEach((link, index) => {
+                console.log(`Revisando enlace ${index}:`, link);
+                const cartIcon = link.querySelector('i.ri-shopping-cart-line');
+                console.log(`Ícono en enlace ${index}:`, cartIcon);
+                
+                if (cartIcon) {
+                    link.addEventListener('click', (e) => {
+                        console.log('Clic en enlace de carrito alternativo');
+                        e.preventDefault();
+                        this.openCart();
+                    });
+                }
+            });
+        } else {
+            // Añadir evento al ícono del carrito encontrado
+            this.cartIcon.addEventListener('click', (e) => {
+                console.log('Clic en ícono de carrito');
+                e.preventDefault();
+                this.openCart();
+            });
+        }
     }
 
-    createNotificationContainer() {
-        // Crear contenedor de notificaciones si no existe
-        const existingNotification = document.querySelector('.cart-notification');
-        if (!existingNotification) {
-            const notificationContainer = document.createElement('div');
-            notificationContainer.className = 'cart-notification';
-            notificationContainer.innerHTML = `
+    initializeNotificationElement() {
+        // Crear contenedor de notificación si no existe
+        let notification = document.querySelector('.cart-notification');
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.innerHTML = `
                 <div class="cart-notification-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
-                <span class="cart-notification-text">Producto añadido al carrito</span>
+                <span class="cart-notification-text"></span>
             `;
-            document.body.appendChild(notificationContainer);
+            document.body.appendChild(notification);
+        }
+    }
+
+    createNotificationContainer() {
+        // No hacer nada si ya existe el contenedor de notificación
+        if (document.querySelector('.cart-notification')) {
+            return;
         }
     }
 
@@ -57,127 +110,24 @@ class CartUI {
             document.body.appendChild(notification);
         }
 
-        console.log('Contenedor de notificación encontrado/creado');
-
-        // Prioridad de notificaciones: error > warning > success
-        const currentType = notification.classList.contains('error') ? 'error' : 
-                            notification.classList.contains('warning') ? 'warning' : 'success';
-        
-        const typePriority = {
-            'error': 3,
-            'warning': 2,
-            'success': 1
-        };
-
-        console.log('Estado actual de la notificación:', {
-            currentType,
-            currentClasses: Array.from(notification.classList),
-            message: notification.querySelector('.cart-notification-text')?.textContent
-        });
-
-        // Siempre mostrar la notificación verde
-        if (type === 'success') {
-            console.log('Forzando notificación verde');
-            
-            // Limpiar clases anteriores
-            notification.classList.remove('success', 'warning', 'error');
-            
-            // Añadir clase de tipo de notificación
-            notification.classList.add(type);
-            console.log('Clase añadida:', type);
-
-            const notificationText = notification.querySelector('.cart-notification-text');
-            const notificationIcon = notification.querySelector('.cart-notification-icon');
-            
-            // Actualizar texto de la notificación
-            notificationText.textContent = message;
-            console.log('Texto actualizado:', message);
-
-            // Cambiar ícono para success
-            const successIconSvg = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-            `;
-            
-            notificationIcon.innerHTML = successIconSvg;
-            console.log('Ícono actualizado');
-            
-            // Forzar reflow para asegurar transición
-            notification.offsetHeight;
-            
-            // Mostrar notificación
-            notification.classList.add('show');
-            console.log('Notificación mostrada');
-            
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                notification.classList.remove('show');
-                console.log('Notificación ocultada');
-            }, 3000);
-
-            return;
-        }
-
-        // Si no es una notificación verde, siempre mostrar notificaciones de advertencia
-        if (type === 'warning') {
-            console.log('Mostrando notificación de advertencia');
-        } else if (typePriority[type] < typePriority[currentType]) {
-            console.log('Notificación de menor prioridad, ignorando');
-            return;
-        }
-
         // Limpiar clases anteriores
         notification.classList.remove('success', 'warning', 'error');
         
         // Añadir clase de tipo de notificación
         notification.classList.add(type);
-        console.log('Clase añadida:', type);
 
         const notificationText = notification.querySelector('.cart-notification-text');
         const notificationIcon = notification.querySelector('.cart-notification-icon');
         
         // Actualizar texto de la notificación
         notificationText.textContent = message;
-        console.log('Texto actualizado:', message);
 
-        // Cambiar ícono según el tipo de notificación
-        let iconSvg = '';
-        switch(type) {
-            case 'warning':
-                iconSvg = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                        <line x1="12" y1="9" x2="12" y2="13"></line>
-                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                    </svg>
-                `;
-                break;
-            case 'error':
-                iconSvg = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                `;
-                break;
-        }
-        
-        notificationIcon.innerHTML = iconSvg;
-        console.log('Ícono actualizado');
-        
-        // Forzar reflow para asegurar transición
-        notification.offsetHeight;
-        
         // Mostrar notificación
         notification.classList.add('show');
-        console.log('Notificación mostrada');
         
         // Ocultar después de 3 segundos
         setTimeout(() => {
             notification.classList.remove('show');
-            console.log('Notificación ocultada');
         }, 3000);
     }
 
@@ -247,69 +197,127 @@ class CartUI {
     }
 
     setupCartModal() {
-        // Crear el modal del carrito
-        const modal = document.createElement('div');
-        modal.className = 'cart-modal';
-        modal.innerHTML = `
-            <div class="cart-modal-content">
-                <div class="cart-modal-header">
-                    <div class="header-content">
-                        <h3>Carrito de Compras</h3>
-                        <button class="close-cart">&times;</button>
+        console.log('Configurando modal del carrito');
+        
+        // Verificar si ya existe un modal del carrito en el documento
+        const existingModal = document.querySelector('.cart-modal');
+        if (existingModal) {
+            console.log('Modal del carrito ya existente');
+            this.modal = existingModal;
+        } else {
+            console.log('Creando nuevo modal del carrito');
+            this.modal = document.createElement('div');
+            this.modal.className = 'cart-modal';
+            this.modal.innerHTML = `
+                <div class="cart-modal-content">
+                    <div class="cart-modal-header">
+                        <div class="header-content">
+                            <h3>Tu Carrito</h3>
+                            <button class="close-cart-modal">&times;</button>
+                        </div>
+                    </div>
+                    <div class="cart-items-container"></div>
+                    <div class="cart-summary">
+                        <div class="cart-total">
+                            Total: $<span class="total-amount">0.00</span>
+                        </div>
+                        <div class="cart-actions">
+                            <button class="empty-cart-btn">Vaciar Carrito</button>
+                            <button class="checkout-btn">Ir a Pagar</button>
+                        </div>
                     </div>
                 </div>
-                <div class="cart-items"></div>
-                <div class="cart-actions" style="display: none;">
-                    <button class="btn-empty-cart">Vaciar Carrito</button>
-                </div>
-                <div class="cart-total">
-                    <span>Total: $<span class="total-amount">0</span></span>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        this.modal = modal;
-        this.cartItemsContainer = modal.querySelector('.cart-items');
-        this.emptyCartBtn = modal.querySelector('.btn-empty-cart');
-        this.cartActionsContainer = modal.querySelector('.cart-actions');
+            `;
+            
+            // Añadir evento de cierre al botón
+            const closeButton = this.modal.querySelector('.close-cart-modal');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    this.closeCart();
+                });
+            }
+            
+            // Añadir evento de clic fuera del modal para cerrarlo
+            this.modal.addEventListener('click', (e) => {
+                if (e.target === this.modal) {
+                    this.closeCart();
+                }
+            });
+            
+            document.body.appendChild(this.modal);
+            console.log('Modal del carrito añadido al body');
+        }
+
+        // Inicializar referencias a elementos del modal
+        this.cartItemsContainer = this.modal.querySelector('.cart-items-container');
+        this.emptyCartBtn = this.modal.querySelector('.empty-cart-btn');
+        this.cartActionsContainer = this.modal.querySelector('.cart-actions');
+
+        console.log('Referencias del modal:', {
+            cartItemsContainer: this.cartItemsContainer,
+            emptyCartBtn: this.emptyCartBtn,
+            cartActionsContainer: this.cartActionsContainer
+        });
+
+        // Configurar eventos para el botón de vaciar carrito
+        if (this.emptyCartBtn) {
+            this.emptyCartBtn.addEventListener('click', () => {
+                this.cartService.emptyCart();
+                this.updateTotal();
+                this.renderCartItems();
+            });
+        }
+
+        // Inicializar el modal con el estado actual del carrito
+        this.renderCartItems();
+        this.updateTotal();
     }
 
     setupEventListeners() {
+        console.log('Configurando event listeners');
+        
         // Abrir modal al hacer clic en el ícono del carrito
-        this.cartIcon.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.openCart();
+        const cartIcons = document.querySelectorAll('.ri-shopping-cart-line, .icons a i.ri-shopping-cart-line');
+        cartIcons.forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                console.log('Clic en ícono de carrito');
+                e.preventDefault();
+                this.openCart();
+            });
         });
 
-        // Cerrar modal
-        this.modal.querySelector('.close-cart').addEventListener('click', () => {
-            this.closeCart();
-        });
-
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', (e) => {
-            if (e.target === this.modal) {
+        // Asegurar que el modal tenga un botón de cierre
+        const closeButton = this.modal.querySelector('.close-cart-modal');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                console.log('Botón de cerrar carrito clickeado');
                 this.closeCart();
-            }
-        });
+            });
+        } else {
+            console.warn('No se encontró botón para cerrar el carrito');
+        }
 
         // Suscribirse a cambios en el carrito
         this.cartService.addObserver(() => {
-            this.updateCartIcon();
             this.renderCartItems();
-        });
-
-        // Agregar evento al botón de vaciar carrito
-        this.emptyCartBtn.addEventListener('click', () => {
-            this.cartService.emptyCart();
-            this.updateTotal();
+            this.updateCartIcon();
         });
     }
 
     openCart() {
+        console.log('Método openCart() llamado');
+        console.log('Modal:', this.modal);
+        
+        if (!this.modal) {
+            console.error('El modal del carrito no está inicializado');
+            return;
+        }
+        
         this.modal.style.display = 'block';
         document.body.classList.add('modal-open');
         this.renderCartItems();
+        
+        console.log('Carrito abierto');
     }
 
     closeCart() {
@@ -424,13 +432,14 @@ class CartUI {
     }
 
     updateTotal() {
-        const total = this.cartService.getTotal();
         const totalElement = this.modal.querySelector('.total-amount');
-        
-        // Asegurar que el total sea visible y actualizado
         if (totalElement) {
+            const total = this.cartService.getTotal();
             totalElement.textContent = total.toFixed(2);
         }
+
+        // Actualizar icono del carrito
+        this.updateCartIcon();
     }
 }
 
