@@ -5,32 +5,41 @@ import { CartService } from '../js/services/cart.js';
 describe('CartUI', () => {
     let cartService;
     let cartUI;
+    let cartIconElement;
 
     beforeEach(() => {
-        // Crear un DOM mínimo
+        // Crear un DOM mínimo con ícono de carrito
         document.body.innerHTML = `
             <div class="icons">
                 <a href="#"><i class="ri-shopping-cart-line"></i></a>
             </div>
         `;
 
+        // Usar fake timers
+        vi.useFakeTimers();
+
         // Crear mocks
         cartService = new CartService({ mockLocalStorage: true });
         
-        // Usar fake timers para controlar timeouts
-        vi.useFakeTimers();
+        // Espiar getItemCount para controlar el número de elementos
+        vi.spyOn(cartService, 'getItemCount');
         
-        // Espiar console.log para verificar inicialización
-        vi.spyOn(console, 'log');
+        // Crear CartUI
+        cartUI = new CartUI(cartService);
+        
+        // Obtener el ícono del carrito
+        cartIconElement = document.querySelector('.ri-shopping-cart-line');
     });
 
     afterEach(() => {
-        // Limpiar mocks
-        vi.restoreAllMocks();
-        vi.useRealTimers(); // Cambiar de restoreAllTimers a useRealTimers
-        
+        // Restaurar timers reales
+        vi.useRealTimers();
+
         // Limpiar el DOM
         document.body.innerHTML = '';
+        
+        // Restaurar mocks
+        vi.restoreAllMocks();
     });
 
     it('should log initialization message', () => {
@@ -96,6 +105,64 @@ describe('CartUI', () => {
             // Verificar que la notificación ya no tiene la clase 'show'
             notificationContainer = document.querySelector('.cart-notification');
             expect(notificationContainer.classList.contains('show')).toBe(false);
+        });
+    });
+
+    describe('updateCartIcon', () => {
+        it('should add a cart count badge when items are in the cart', () => {
+            // Simular que hay 3 elementos en el carrito
+            cartService.getItemCount.mockReturnValue(3);
+            
+            // Llamar a updateCartIcon
+            cartUI.updateCartIcon();
+
+            // Verificar que se haya agregado el badge
+            const badge = cartIconElement.querySelector('.cart-count');
+            expect(badge).not.toBeNull();
+            expect(badge.textContent).toBe('3');
+        });
+
+        it('should remove cart count badge when cart is empty', () => {
+            // Simular carrito vacío
+            cartService.getItemCount.mockReturnValue(0);
+            
+            // Llamar a updateCartIcon
+            cartUI.updateCartIcon();
+
+            // Verificar que no exista badge
+            const badge = cartIconElement.querySelector('.cart-count');
+            expect(badge).toBeNull();
+        });
+
+        it('should update badge count dynamically', () => {
+            // Simular diferentes números de elementos
+            cartService.getItemCount.mockReturnValueOnce(2);
+            cartUI.updateCartIcon();
+
+            let badge = cartIconElement.querySelector('.cart-count');
+            expect(badge.textContent).toBe('2');
+
+            // Cambiar número de elementos
+            cartService.getItemCount.mockReturnValueOnce(5);
+            cartUI.updateCartIcon();
+
+            badge = cartIconElement.querySelector('.cart-count');
+            expect(badge.textContent).toBe('5');
+        });
+
+        it('should handle multiple calls without creating multiple badges', () => {
+            // Simular carrito con elementos
+            cartService.getItemCount.mockReturnValue(3);
+            
+            // Llamar múltiples veces a updateCartIcon
+            cartUI.updateCartIcon();
+            cartUI.updateCartIcon();
+            cartUI.updateCartIcon();
+
+            // Verificar que solo exista un badge
+            const badges = cartIconElement.querySelectorAll('.cart-count');
+            expect(badges.length).toBe(1);
+            expect(badges[0].textContent).toBe('3');
         });
     });
 });
