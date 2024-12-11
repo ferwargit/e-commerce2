@@ -622,4 +622,111 @@ describe('ProductGridController', () => {
 
     consoleErrorSpy.mockRestore();
   });
+
+  it('debería eliminar categorías duplicadas al renderizar', async () => {
+    // Crear elementos DOM necesarios
+    const loadingModal = document.createElement('div');
+    loadingModal.id = 'loading-modal';
+    document.body.appendChild(loadingModal);
+
+    const productGridController = new ProductGridController();
+    const categoryFilter = document.createElement('select');
+    categoryFilter.id = 'categoryFilter';
+    document.body.appendChild(categoryFilter);
+
+    // Mockear ProductService.fetchProducts
+    ProductService.fetchProducts = vi.fn().mockResolvedValue([
+      { 
+        id: 1, 
+        category: 'electronics', 
+        title: 'Electronic Product 1',
+        price: 100,
+        description: 'Test Product',
+        image: 'test-image.jpg'
+      },
+      { 
+        id: 2, 
+        category: 'electronics', 
+        title: 'Electronic Product 2',
+        price: 200,
+        description: 'Another Test Product',
+        image: 'test-image-2.jpg'
+      },
+      { 
+        id: 3, 
+        category: "men's clothing", 
+        title: "Men's Clothing Product",
+        price: 50,
+        description: 'Clothing Test',
+        image: 'clothing-image.jpg'
+      },
+      { 
+        id: 4, 
+        category: 'jewelery', 
+        title: 'Jewelry Product',
+        price: 300,
+        description: 'Jewelry Test',
+        image: 'jewelry-image.jpg'
+      },
+      { 
+        id: 5, 
+        category: "women's clothing", 
+        title: "Women's Clothing Product",
+        price: 75,
+        description: 'Women Clothing Test',
+        image: 'womens-clothing-image.jpg'
+      }
+    ]);
+
+    // Mockear métodos de ProductCard para evitar errores
+    vi.spyOn(ProductCard.prototype, 'render').mockImplementation(function() {
+      this.product = this.product || {};
+      this.product.price = this.product.price || 0;
+      return document.createElement('div');
+    });
+
+    // Mockear getElementById para simular entorno completo
+    vi.spyOn(document, 'getElementById').mockImplementation((id) => {
+      if (id === 'loading-modal') return loadingModal;
+      if (id === 'categoryFilter') return categoryFilter;
+      return null;
+    });
+
+    await productGridController.initialize();
+
+    const options = Array.from(categoryFilter.options).map(option => ({
+      value: option.value,
+      textContent: option.textContent
+    }));
+
+    console.error('Opciones de categoría:', JSON.stringify(options, null, 2));
+
+    // Verificar categorías específicas
+    const expectedCategories = [
+      { value: 'all', textContent: 'Todas las Categorías' },
+      { value: 'electronics', textContent: 'electronics' },
+      { value: "men's clothing", textContent: "men's clothing" },
+      { value: 'jewelery', textContent: 'jewelery' },
+      { value: "women's clothing", textContent: "women's clothing" }
+    ];
+
+    // Verificar que cada categoría esperada aparezca exactamente una vez
+    expectedCategories.forEach(expectedCategory => {
+      const filteredOptions = options.filter(option => 
+        option.value === expectedCategory.value && 
+        option.textContent === expectedCategory.textContent
+      );
+      
+      console.error(`Opciones para ${expectedCategory.value}:`, JSON.stringify(filteredOptions, null, 2));
+      
+      expect(filteredOptions.length).toBe(1, 
+        `Categoría ${expectedCategory.value} debe aparecer una única vez`
+      );
+    });
+
+    // Verificar número total de opciones
+    expect(options.length).toBe(expectedCategories.length, 
+      'Número de opciones de categoría debe coincidir con lo esperado'
+    );
+  });
 });

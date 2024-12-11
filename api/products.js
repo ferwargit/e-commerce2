@@ -152,12 +152,25 @@ export class CategoryFilter {
     render() {
         if (!this.element) return;
 
-        const options = ['all', ...new Set(this.categories)];
-        this.element.innerHTML = options.map(category =>
-            `<option value="${category}">
-                ${category === 'all' ? 'Todas las Categorías' : category}
-            </option>`
-        ).join('');
+        // Limpiar opciones existentes
+        this.element.innerHTML = '';
+
+        // Añadir opción de "Todas las Categorías"
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = 'Todas las Categorías';
+        this.element.appendChild(allOption);
+
+        // Obtener categorías únicas
+        const uniqueCategories = [...new Set(this.categories)];
+
+        // Añadir categorías únicas
+        uniqueCategories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category;
+            option.textContent = category;
+            this.element.appendChild(option);
+        });
 
         this.element.addEventListener('change', () => {
             const selectedCategory = this.element.value;
@@ -201,7 +214,7 @@ export class ProductGridController {
         console.log('Filtrando por categoría:', category);
         const filteredProducts = category === 'all'
             ? this.products
-            : this.products.filter(product => product.category.toLowerCase() === category.toLowerCase());
+            : this.products.filter(product => product.category === category);
         this.displayProducts(filteredProducts);
     }
 
@@ -222,15 +235,23 @@ export class ProductGridController {
             this.products = products;
             
             // Configurar filtro de categorías
-            const categories = ['all', ...new Set(products.map(p => p.category))];
+            const categories = [
+                'all',
+                ...new Set(products.map(p => p.category))
+            ];
             console.log('Categorías:', categories);
+            
+            // Limpiar opciones existentes
+            categoryFilter.innerHTML = '';
+
+            // Añadir categorías únicas
             categories.forEach(category => {
                 const option = document.createElement('option');
-                option.value = category;
+                option.value = category === 'all' ? 'all' : category;
                 option.textContent = category === 'all' ? 'Todas las Categorías' : category;
                 categoryFilter.appendChild(option);
             });
-
+            
             // Configurar evento de filtro
             categoryFilter.addEventListener('change', (e) => {
                 this.handleCategoryFilter(e.target.value);
