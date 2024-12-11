@@ -31,6 +31,7 @@ class CartUI {
         // Crear contenedor de notificaciones
         this.createNotificationContainer();
         
+        // Siempre intentar configurar el modal
         this.setupCartModal();
         this.setupEventListeners();
         this.updateCartIcon();
@@ -197,17 +198,19 @@ class CartUI {
     }
 
     setupCartModal() {
-        console.log('Configurando modal del carrito');
+        console.log('[DEEP DEBUG] Iniciando setupCartModal()');
         
         // Verificar si ya existe un modal del carrito en el documento
         const existingModal = document.querySelector('.cart-modal');
         if (existingModal) {
-            console.log('Modal del carrito ya existente');
+            console.log('[DEEP DEBUG] Modal del carrito ya existente');
             this.modal = existingModal;
         } else {
-            console.log('Creando nuevo modal del carrito');
+            console.log('[DEEP DEBUG] Creando nuevo modal del carrito');
+            // Crear modal siempre, incluso si el body está vacío
             this.modal = document.createElement('div');
             this.modal.className = 'cart-modal';
+            this.modal.style.display = 'none';  // Ocultar por defecto
             this.modal.innerHTML = `
                 <div class="cart-modal-content">
                     <div class="cart-modal-header">
@@ -232,97 +235,145 @@ class CartUI {
             // Añadir evento de cierre al botón
             const closeButton = this.modal.querySelector('.close-cart-modal');
             if (closeButton) {
-                closeButton.addEventListener('click', () => {
+                closeButton.addEventListener('click', (e) => {
+                    console.log('[DEEP DEBUG] Botón de cierre clickeado');
+                    console.log('[DEEP DEBUG] Evento de cierre:', e);
                     this.closeCart();
                 });
             }
             
             // Añadir evento de clic fuera del modal para cerrarlo
             this.modal.addEventListener('click', (e) => {
+                console.log('[DEEP DEBUG] Evento de clic en modal:', e);
+                console.log('[DEEP DEBUG] Evento target:', e.target);
+                console.log('[DEEP DEBUG] Modal actual:', this.modal);
+                console.log('[DEEP DEBUG] Comparación de target:', e.target === this.modal);
+                
+                // Verificar si el clic es directamente en el modal (no en su contenido)
                 if (e.target === this.modal) {
+                    console.log('[DEEP DEBUG] Clic fuera del contenido del modal, cerrando');
                     this.closeCart();
+                } else {
+                    console.log('[DEEP DEBUG] Clic dentro del contenido del modal, no cerrar');
                 }
             });
             
-            document.body.appendChild(this.modal);
-            console.log('Modal del carrito añadido al body');
+            // Añadir al body si existe, sino no hacer nada
+            if (document.body) {
+                document.body.appendChild(this.modal);
+                console.log('[DEEP DEBUG] Modal del carrito añadido al body');
+            } else {
+                console.log('[DEEP DEBUG] No se puede añadir modal: body no existe');
+            }
         }
 
-        // Inicializar referencias a elementos del modal
-        this.cartItemsContainer = this.modal.querySelector('.cart-items-container');
-        this.emptyCartBtn = this.modal.querySelector('.empty-cart-btn');
-        this.cartActionsContainer = this.modal.querySelector('.cart-actions');
+        // Solo inicializar referencias si el modal existe
+        if (this.modal) {
+            this.cartItemsContainer = this.modal.querySelector('.cart-items-container');
+            this.emptyCartBtn = this.modal.querySelector('.empty-cart-btn');
+            this.cartActionsContainer = this.modal.querySelector('.cart-actions');
 
-        console.log('Referencias del modal:', {
-            cartItemsContainer: this.cartItemsContainer,
-            emptyCartBtn: this.emptyCartBtn,
-            cartActionsContainer: this.cartActionsContainer
-        });
-
-        // Configurar eventos para el botón de vaciar carrito
-        if (this.emptyCartBtn) {
-            this.emptyCartBtn.addEventListener('click', () => {
-                this.cartService.emptyCart();
-                this.updateTotal();
-                this.renderCartItems();
+            console.log('[DEEP DEBUG] Referencias del modal:', {
+                cartItemsContainer: this.cartItemsContainer,
+                emptyCartBtn: this.emptyCartBtn,
+                cartActionsContainer: this.cartActionsContainer
             });
+
+            // Configurar eventos para el botón de vaciar carrito
+            if (this.emptyCartBtn) {
+                this.emptyCartBtn.addEventListener('click', () => {
+                    console.log('[DEEP DEBUG] Botón de vaciar carrito clickeado');
+                    this.cartService.emptyCart();
+                    this.updateTotal();
+                    this.renderCartItems();
+                });
+            }
+
+            // Inicializar el modal con el estado actual del carrito
+            try {
+                this.renderCartItems();
+                this.updateTotal();
+            } catch (error) {
+                console.warn('[DEEP DEBUG] Error al inicializar modal:', error);
+            }
+        }
+    }
+
+    async openCart() {
+        try {
+            console.log('[DEEP DEBUG] Método openCart() llamado');
+    
+            // Validación del modal
+            if (!this.modal) {
+                throw new Error('No se pudo abrir el carrito: el modal no está configurado');
+            }
+    
+            // Mostrar modal con validación adicional
+            if (this.modal instanceof HTMLElement) {
+                console.log('[DEEP DEBUG] Mostrando modal');
+                this.modal.style.display = 'block';
+                document.body.classList.add('modal-open');
+    
+                // Asegurar que el renderizado se complete
+                await Promise.all([
+                    this.renderCartItems(),
+                    this.updateTotal(),
+                    this.updateCartIcon()
+                ]);
+            }
+        } catch (error) {
+            console.error('Error al abrir el carrito:', error);
+            // Notificar al usuario sobre el error
+            this.showCartNotification(error.message, 'error');
+        }
+    }
+
+    closeCart() {
+        console.log('[DEEP DEBUG] Método closeCart() llamado');
+        
+        // Verificar si el modal existe
+        if (!this.modal) {
+            console.error('No se pudo cerrar el carrito: el modal no está configurado');
+            return;
         }
 
-        // Inicializar el modal con el estado actual del carrito
-        this.renderCartItems();
-        this.updateTotal();
+        console.log('[DEEP DEBUG] Ocultando modal');
+        this.modal.style.display = 'none';
+        document.body.classList.remove('modal-open');
     }
 
     setupEventListeners() {
-        console.log('Configurando event listeners');
+        console.log('[DEEP DEBUG] Configurando event listeners');
         
         // Abrir modal al hacer clic en el ícono del carrito
         const cartIcons = document.querySelectorAll('.ri-shopping-cart-line, .icons a i.ri-shopping-cart-line');
+        console.log('[DEEP DEBUG] Íconos de carrito encontrados:', cartIcons.length);
+        
         cartIcons.forEach(icon => {
             icon.addEventListener('click', (e) => {
-                console.log('Clic en ícono de carrito');
+                console.log('[DEEP DEBUG] Clic en ícono de carrito');
                 e.preventDefault();
                 this.openCart();
             });
         });
 
         // Asegurar que el modal tenga un botón de cierre
-        const closeButton = this.modal.querySelector('.close-cart-modal');
+        const closeButton = this.modal?.querySelector('.close-cart-modal');
         if (closeButton) {
             closeButton.addEventListener('click', () => {
-                console.log('Botón de cerrar carrito clickeado');
+                console.log('[DEEP DEBUG] Botón de cerrar carrito clickeado');
                 this.closeCart();
             });
         } else {
-            console.warn('No se encontró botón para cerrar el carrito');
+            console.warn('[DEEP DEBUG] No se encontró botón para cerrar el carrito');
         }
 
         // Suscribirse a cambios en el carrito
         this.cartService.addObserver(() => {
+            console.log('[DEEP DEBUG] Observador de carrito notificado');
             this.renderCartItems();
             this.updateCartIcon();
         });
-    }
-
-    openCart() {
-        console.log('Método openCart() llamado');
-        console.log('Modal:', this.modal);
-        
-        if (!this.modal) {
-            console.error('El modal del carrito no está inicializado');
-            return;
-        }
-        
-        this.modal.style.display = 'block';
-        document.body.classList.add('modal-open');
-        this.renderCartItems();
-        
-        console.log('Carrito abierto');
-    }
-
-    closeCart() {
-        this.modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
     }
 
     updateCartIcon() {
