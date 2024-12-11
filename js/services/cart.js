@@ -219,27 +219,27 @@ class CartService {
 
     // Validación de producto
     isValidProduct(product) {
-        return product && typeof product === 'object' &&
-               'id' in product && 'title' in product &&
-               'price' in product && 
-               Number.isFinite(product.price) && product.price >= 0;
+        return product && 
+            typeof product === 'object' &&
+            'id' in product && 
+            'title' in product && 
+            'price' in product &&
+            typeof product.id === 'number' &&
+            typeof product.title === 'string' &&
+            typeof product.price === 'number' &&
+            product.price > 0;
     }
 
     // Notificación de usuario
-    notifyUser(callback, message, type = 'success') {
-        // Si hay un callback personalizado, usarlo
+    notifyUser(callback, message, type = 'info') {
         if (typeof callback === 'function') {
             callback(message, type);
-            return;
         }
+    }
 
-        // Si no hay callback, intentar usar window.cartUI
-        if (typeof window !== 'undefined' && window.cartUI && typeof window.cartUI.showCartNotification === 'function') {
-            window.cartUI.showCartNotification(message, type);
-        } else {
-            // Fallback a console si no hay método de notificación
-            this.logger.log(`Notificación (${type}): ${message}`);
-        }
+    // Obtener carrito
+    getCart() {
+        return [...this.cart];
     }
 }
 
