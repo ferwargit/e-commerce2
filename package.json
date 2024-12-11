@@ -12,23 +12,49 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
+    "@vitest/coverage-v8": "^2.1.8",
+    "c8": "^9.1.0",
     "jsdom": "^25.0.1",
     "vitest": "^2.1.8"
   },
   "scripts": {
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "test:coverage:html": "vitest run --coverage --reporter=html",
+    "test:coverage:text": "vitest run --coverage --reporter=text",
+    "test:coverage:lcov": "vitest run --coverage --reporter=lcov"
   },
   "vitest": {
     "environment": "jsdom",
     "globals": true,
-    "setupFiles": ["./tests/setup.js"]
+    "setupFiles": [
+      "./tests/setup.js"
+    ],
+    "coverage": {
+      "provider": "v8",
+      "reporter": [
+        "text",
+        "html",
+        "lcov"
+      ],
+      "include": [
+        "js/**/*.js"
+      ],
+      "exclude": [
+        "js/**/*.test.js",
+        "js/**/*.spec.js"
+      ]
+    }
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ferwargit/e-commerce2.git"
   },
-  "keywords": ["e-commerce", "javascript"],
+  "keywords": [
+    "e-commerce",
+    "javascript"
+  ],
   "author": "",
   "license": "ISC",
   "homepage": "https://github.com/ferwargit/e-commerce2#readme"
