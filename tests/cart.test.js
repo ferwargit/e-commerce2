@@ -166,7 +166,7 @@ describe('CartService', () => {
                 expect(result).toBe(true);
             }
 
-            // Intentar añadir un noveno producto único
+            // Intentar añadir un noveno producto
             const result = cartService.addToCart(createProduct(9));
             expect(result).toBe(false);
             expect(cartService.getCart().length).toBe(8);
@@ -446,6 +446,245 @@ describe('CartService', () => {
             
             expect(localStorageSetItemSpy).toHaveBeenCalledTimes(2); // Una por addToCart, otra por removeFromCart
             localStorageSetItemSpy.mockRestore();
+        });
+    });
+
+    describe('Casos Límite del Carrito', () => {
+        describe('Límite de Productos Únicos', () => {
+            it('debe impedir agregar más de 8 productos únicos', () => {
+                // Crear 8 productos diferentes
+                const productos = Array.from({ length: 8 }, (_, i) => ({
+                    id: i + 1,
+                    title: `Producto ${i + 1}`,
+                    price: 10.99 + i
+                }));
+
+                // Agregar los 8 primeros productos
+                productos.forEach(producto => {
+                    const resultado = cartService.addToCart(producto);
+                    expect(resultado).toBe(true);
+                });
+
+                // Intentar agregar un noveno producto
+                const productoExtra = {
+                    id: 9,
+                    title: 'Producto 9',
+                    price: 19.99
+                };
+                const resultadoExtra = cartService.addToCart(productoExtra);
+                
+                expect(resultadoExtra).toBe(false);
+                expect(cartService.getItemCount()).toBe(8);
+            });
+
+            it('debe permitir agregar productos duplicados si no supera el límite', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto Duplicado',
+                    price: 10.99
+                };
+
+                const resultados = [
+                    cartService.addToCart(producto),
+                    cartService.addToCart(producto, { allowDuplicates: true })
+                ];
+
+                expect(resultados[0]).toBe(true);
+                expect(resultados[1]).toBe(true);
+                expect(cartService.getCart()[0].quantity).toBe(2);
+                expect(cartService.getCart().length).toBe(1);
+            });
+        });
+
+        describe('Límite de Cantidad por Producto', () => {
+            it('debe impedir agregar más de 3 unidades del mismo producto', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto Límite',
+                    price: 10.99
+                };
+
+                // Intentar agregar 4 veces el mismo producto
+                const resultados = [
+                    cartService.addToCart(producto),
+                    cartService.addToCart(producto),
+                    cartService.addToCart(producto),
+                    cartService.addToCart(producto)
+                ];
+
+                expect(resultados[0]).toBe(true);
+                expect(resultados[1]).toBe(true);
+                expect(resultados[2]).toBe(true);
+                expect(resultados[3]).toBe(false);
+
+                const cart = cartService.getCart();
+                expect(cart[0].quantity).toBe(3);
+                expect(cart.length).toBe(1);
+            });
+
+            it('debe permitir actualizar cantidad respetando el límite máximo', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto Límite',
+                    price: 10.99
+                };
+
+                cartService.addToCart(producto);
+                
+                const resultadoActualizacion = cartService.updateQuantity(producto.id, 5);
+                
+                expect(resultadoActualizacion).toBe(true);
+                expect(cartService.getCart()[0].quantity).toBe(3);
+            });
+        });
+
+        describe('Carrito Vacío', () => {
+            it('debe manejar operaciones en carrito vacío', () => {
+                // Verificar estado inicial
+                expect(cartService.getCart().length).toBe(0);
+                expect(cartService.getTotal()).toBe(0);
+                expect(cartService.getItemCount()).toBe(0);
+                expect(cartService.getTotalProductQuantity()).toBe(0);
+            });
+
+            it('debe manejar eliminación en carrito vacío', () => {
+                const resultadoEliminacion = cartService.removeFromCart(1);
+                expect(resultadoEliminacion).toBe(false);
+            });
+
+            it('debe manejar actualización de cantidad en carrito vacío', () => {
+                const resultadoActualizacion = cartService.updateQuantity(1, 2);
+                expect(resultadoActualizacion).toBe(false);
+            });
+        });
+    });
+
+    // Pruebas de Validación de Precios y Cálculos
+    describe('Validación de Precios y Cálculos', () => {
+        // Pruebas para getTotal()
+        describe('Cálculo de Total', () => {
+            it('debe calcular correctamente el total de un carrito con un producto', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto Simple',
+                    price: 10.00
+                };
+
+                cartService.addToCart(producto);
+                
+                expect(cartService.getTotal()).toBe(10.00);
+            });
+
+            it('debe calcular correctamente el total de un carrito con múltiples productos', () => {
+                const productos = [
+                    { id: 1, title: 'Producto 1', price: 10.00 },
+                    { id: 2, title: 'Producto 2', price: 15.50 }
+                ];
+
+                productos.forEach(producto => cartService.addToCart(producto));
+                
+                // Total esperado: 10.00 + 15.50 = 25.50
+                expect(cartService.getTotal()).toBe(25.50);
+            });
+
+            it('debe manejar correctamente decimales en precios', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto con Decimales',
+                    price: 10.99
+                };
+
+                cartService.addToCart(producto);
+                cartService.updateQuantity(producto.id, 3);
+                
+                // Total esperado: 10.99 * 3 = 32.97
+                expect(cartService.getTotal()).toBe(32.97);
+            });
+
+            it('debe devolver 0 para un carrito vacío', () => {
+                expect(cartService.getTotal()).toBe(0);
+            });
+        });
+
+        // Pruebas para getItemCount()
+        describe('Conteo de Productos Únicos', () => {
+            it('debe contar correctamente productos únicos', () => {
+                const productos = [
+                    { id: 1, title: 'Producto 1', price: 10.00 },
+                    { id: 2, title: 'Producto 2', price: 15.50 },
+                    { id: 3, title: 'Producto 3', price: 20.00 }
+                ];
+
+                productos.forEach(producto => cartService.addToCart(producto));
+                
+                expect(cartService.getItemCount()).toBe(3);
+            });
+
+            it('no debe contar productos duplicados', () => {
+                const producto = {
+                    id: 1,
+                    title: 'Producto Duplicado',
+                    price: 10.00
+                };
+
+                cartService.addToCart(producto);
+                cartService.addToCart(producto);
+                
+                expect(cartService.getItemCount()).toBe(1);
+            });
+
+            it('debe devolver 0 para un carrito vacío', () => {
+                expect(cartService.getItemCount()).toBe(0);
+            });
+        });
+
+        // Pruebas para getTotalProductQuantity()
+        describe('Conteo de Cantidad Total de Productos', () => {
+            it('debe contar correctamente la cantidad total de productos', () => {
+                const productos = [
+                    { id: 1, title: 'Producto 1', price: 10.00 },
+                    { id: 2, title: 'Producto 2', price: 15.50 }
+                ];
+
+                cartService.addToCart(productos[0]);
+                cartService.updateQuantity(productos[0].id, 2);
+                cartService.addToCart(productos[1]);
+                
+                expect(cartService.getTotalProductQuantity()).toBe(3);
+            });
+
+            it('debe devolver 0 para un carrito vacío', () => {
+                expect(cartService.getTotalProductQuantity()).toBe(0);
+            });
+        });
+
+        // Pruebas de Validación de Precios
+        describe('Validación de Precios de Productos', () => {
+            it('debe rechazar productos con precio negativo', () => {
+                const productoInvalido = {
+                    id: 1,
+                    title: 'Producto Inválido',
+                    price: -10.00
+                };
+
+                const resultado = cartService.addToCart(productoInvalido);
+                
+                expect(resultado).toBe(false);
+                expect(cartService.getCart().length).toBe(0);
+            });
+
+            it('debe rechazar productos con precio cero', () => {
+                const productoInvalido = {
+                    id: 1,
+                    title: 'Producto Inválido',
+                    price: 0
+                };
+
+                const resultado = cartService.addToCart(productoInvalido);
+                
+                expect(resultado).toBe(false);
+                expect(cartService.getCart().length).toBe(0);
+            });
         });
     });
 });
