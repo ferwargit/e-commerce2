@@ -228,6 +228,92 @@ describe('CartService', () => {
         });
     });
 
+    describe('Actualización de cantidades', () => {
+        it('debe actualizar la cantidad de un producto existente', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const resultadoActualizacion = cartService.updateQuantity(producto.id, 2);
+            
+            expect(resultadoActualizacion).toBe(true);
+            expect(cartService.getCart()[0].quantity).toBe(2);
+        });
+
+        it('no debe permitir actualizar cantidad mayor al límite máximo por defecto', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const resultadoActualizacion = cartService.updateQuantity(producto.id, 4);
+            
+            expect(resultadoActualizacion).toBe(true);
+            expect(cartService.getCart()[0].quantity).toBe(3); // Límite máximo
+        });
+
+        it('debe permitir actualizar cantidad con opción de desbordamiento', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const resultadoActualizacion = cartService.updateQuantity(producto.id, 5, { allowOverflow: true });
+            
+            expect(resultadoActualizacion).toBe(true);
+            expect(cartService.getCart()[0].quantity).toBe(5);
+        });
+
+        it('debe eliminar el producto si la cantidad se actualiza a 0', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const resultadoActualizacion = cartService.updateQuantity(producto.id, 0);
+            
+            expect(resultadoActualizacion).toBe(true);
+            expect(cartService.getCart().length).toBe(0);
+        });
+
+        it('debe devolver false al intentar actualizar cantidad de producto inexistente', () => {
+            const resultadoActualizacion = cartService.updateQuantity(999, 2);
+            
+            expect(resultadoActualizacion).toBe(false);
+            expect(cartService.getCart().length).toBe(0);
+        });
+
+        it('debe actualizar localStorage al modificar cantidad', () => {
+            const producto = {
+                id: 1,
+                title: 'Test Product',
+                price: 10.99,
+                quantity: 1
+            };
+            cartService.addToCart(producto);
+            
+            const localStorageSetItemSpy = vi.spyOn(localStorage, 'setItem');
+            
+            cartService.updateQuantity(producto.id, 2);
+            
+            expect(localStorageSetItemSpy).toHaveBeenCalledTimes(2); // Una por addToCart, otra por updateQuantity
+            localStorageSetItemSpy.mockRestore();
+        });
+    });
+
     describe('Observers', () => {
         it('should notify observers when cart changes', () => {
             const observer = vi.fn();
