@@ -79,6 +79,21 @@ Una tienda en línea moderna y responsiva construida con tecnologías web están
      2. Click derecho en `index.html`
      3. Selecciona "Open with Live Server"
 
+
+## 🧪 Pruebas Unitarias
+
+### Configuración de Vitest
+Este proyecto utiliza [Vitest](https://vitest.dev/) como framework de pruebas unitarias para garantizar la calidad y el correcto funcionamiento del código.
+
+### Ejecutar Pruebas
+Para ejecutar todas las pruebas, utiliza el siguiente comando:
+
+```bash
+npm run test   
+```
+
+
+
 ## 📱 Compatibilidad
 
 - ✅ Chrome/Edge (últimas 2 versiones)
